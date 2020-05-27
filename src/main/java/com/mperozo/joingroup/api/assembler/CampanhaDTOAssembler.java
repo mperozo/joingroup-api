@@ -1,0 +1,46 @@
+package com.mperozo.joingroup.api.assembler;
+
+import java.util.LinkedList;
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
+import com.mperozo.joingroup.api.dto.CampanhaDTO;
+import com.mperozo.joingroup.model.entity.Campanha;
+
+@Service
+public class CampanhaDTOAssembler {
+
+	public Campanha toEntity(CampanhaDTO dto) {
+		
+		return Campanha.builder()
+				.nome(dto.getNome())
+				.url(dto.getUrl())
+				.status(dto.getStatus())
+				.telefoneSuporte(dto.getTelefoneSuporte())
+				.groupClickLimit(dto.getGroupClickLimit())
+				.endUrl(dto.getEndUrl()).build();
+				
+	}
+
+	public CampanhaDTO toDTO(Campanha entity) {
+		
+		return CampanhaDTO.builder()
+				.id(entity.getId())
+				.nome(entity.getNome())
+				.url(entity.getUrl())
+				.status(entity.getStatus())
+				.telefoneSuporte(entity.getTelefoneSuporte())
+				.groupClickLimit(entity.getGroupClickLimit())
+				.endUrl(entity.getEndUrl()).build();
+	}
+	
+	public List<CampanhaDTO> toDTOList(List<Campanha> entityList) {
+		
+		List<CampanhaDTO> campanhaDTOList = new LinkedList<CampanhaDTO>();
+		
+		entityList.forEach(campanha -> campanhaDTOList.add(toDTO(campanha)));
+		
+		return campanhaDTOList;
+	}
+}
