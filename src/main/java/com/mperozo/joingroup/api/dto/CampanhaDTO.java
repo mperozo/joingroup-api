@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 public class CampanhaDTO {
 
 	private Long id;
+	private Long idUsuarioResponsavel;
 	private String nome;
 	private String url;
 	private StatusCampanhaEnum status;

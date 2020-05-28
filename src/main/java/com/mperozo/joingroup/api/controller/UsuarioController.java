@@ -30,11 +30,18 @@ public class UsuarioController {
 	@Autowired
 	private final UsuarioDTOAssembler usuarioDTOAssembler;
 	
+	@GetMapping("/buscar/{id}")
+	public ResponseEntity buscarUsuario(@PathVariable("id") Long id) {
+		Usuario usuario = usuarioService.buscarPorId(id);
+		if(usuario == null) {
+			return new ResponseEntity(HttpStatus.NOT_FOUND);
+		}
+		return ResponseEntity.ok(usuario);
+	}
+	
 	@PostMapping("/salvar")
 	public ResponseEntity salvarUsuario(@RequestBody UsuarioDTO usuarioDTO) {
-
 		Usuario usuario = usuarioDTOAssembler.toEntity(usuarioDTO);
-		
 		try {
 			Usuario usuarioSalvo = usuarioService.salvarUsuario(usuario);
 			return new ResponseEntity(usuarioSalvo, HttpStatus.CREATED);
@@ -45,25 +52,12 @@ public class UsuarioController {
 	
 	@PostMapping("/autenticar")
 	public ResponseEntity autenticar(@RequestBody UsuarioDTO usuarioDTO) {
-		
 		try {
 			Usuario usuarioAutenticado = usuarioService.autenticar(usuarioDTO.getEmail(), usuarioDTO.getSenha());
 			return ResponseEntity.ok(usuarioAutenticado);
 		}catch (AuthenticationException e) {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
-	}
-	
-	@GetMapping("/buscar/{id}")
-	public ResponseEntity buscarUsuario(@PathVariable("id") Long id) {
-		
-		Usuario usuario = usuarioService.buscarPorId(id);
-		
-		if(usuario == null) {
-			return new ResponseEntity(HttpStatus.NOT_FOUND);
-		}
-		
-		return ResponseEntity.ok(usuario);
 	}
 	
 }
