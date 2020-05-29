@@ -43,6 +43,14 @@ public class Campanha {
 	@NotBlank(message = "Nome é obrigatório.")
 	private String nome;
 	
+	@Column(name = "EMPRESA")
+	@NotBlank(message = "Nome da empresa é obrigatório.")
+	private String empresa;
+	
+	@Column(name = "LINK")
+	@NotBlank(message = "Link é obrigatório.")
+	private String link;
+	
 	@Column(name = "URL")
 	@NotBlank(message = "URL é obrigatória.")
 	private String url;
@@ -58,7 +66,6 @@ public class Campanha {
 	private String telefoneSuporte;
 	
 	@Column(name = "GROUP_CLICK_LIMIT")
-	@NotBlank(message = "Limite de cliques é obrigatório.")
 	private Integer groupClickLimit;
 	
 	@Column(name = "STATUS")

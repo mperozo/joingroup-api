@@ -33,10 +33,10 @@ public class UsuarioRepositoryIntegrationTest {
 	@Test
 	public void deveVerificarExistenciaDeUmEmail() {
 
-		Usuario usuario = TestUtils.criarUsuario(TestUtils.EMAIL_PARA_TESTE, TestUtils.SENHA_PARA_TESTE);
+		Usuario usuario = TestUtils.criarUsuario(TestUtils.EMAIL_USUARIO_TESTE, TestUtils.SENHA_USUARIO_TESTE);
 		entityManager.persist(usuario);
 
-		boolean result = usuarioRepository.existsByEmail(TestUtils.EMAIL_PARA_TESTE);
+		boolean result = usuarioRepository.existsByEmail(TestUtils.EMAIL_USUARIO_TESTE);
 
 		assertThat(result).isTrue();
 	}
@@ -44,7 +44,7 @@ public class UsuarioRepositoryIntegrationTest {
 	@Test
 	public void deveRetornarFalsoQuandoNaoHouverUsuarioCadastradoComOEmail() {
 
-		boolean result = usuarioRepository.existsByEmail(TestUtils.EMAIL_PARA_TESTE);
+		boolean result = usuarioRepository.existsByEmail(TestUtils.EMAIL_USUARIO_TESTE);
 
 		assertThat(result).isFalse();
 	}
@@ -52,7 +52,7 @@ public class UsuarioRepositoryIntegrationTest {
 	@Test
 	public void devePersistirUmUsuarioNaBaseDeDados() {
 		
-		Usuario usuario = TestUtils.criarUsuario(TestUtils.EMAIL_PARA_TESTE, TestUtils.SENHA_PARA_TESTE);
+		Usuario usuario = TestUtils.criarUsuario(TestUtils.EMAIL_USUARIO_TESTE, TestUtils.SENHA_USUARIO_TESTE);
 		
 		Usuario usuarioSalvo = entityManager.persist(usuario);
 		
@@ -62,10 +62,10 @@ public class UsuarioRepositoryIntegrationTest {
 	@Test
 	public void deveBuscarUmUsuarioPorEmail() {
 		
-		Usuario usuario = TestUtils.criarUsuario(TestUtils.EMAIL_PARA_TESTE, TestUtils.SENHA_PARA_TESTE);
+		Usuario usuario = TestUtils.criarUsuario(TestUtils.EMAIL_USUARIO_TESTE, TestUtils.SENHA_USUARIO_TESTE);
 
 		Usuario usuarioSalvo = entityManager.persist(usuario);
-		Optional<Usuario> result = usuarioRepository.findByEmail(TestUtils.EMAIL_PARA_TESTE);
+		Optional<Usuario> result = usuarioRepository.findByEmail(TestUtils.EMAIL_USUARIO_TESTE);
 
 		assertThat(result.isPresent()).isTrue();
 		assertThat(usuarioSalvo).isEqualToComparingFieldByField(result.get());
@@ -74,7 +74,7 @@ public class UsuarioRepositoryIntegrationTest {
 	@Test
 	public void deveRetornarVazioAoBuscarUsuarioPorEmailQuandoNaoExisteNaBase() {
 		
-		Optional<Usuario> result = usuarioRepository.findByEmail(TestUtils.EMAIL_PARA_TESTE);
+		Optional<Usuario> result = usuarioRepository.findByEmail(TestUtils.EMAIL_USUARIO_TESTE);
 		assertThat(result.isPresent()).isFalse();
 	}
 	

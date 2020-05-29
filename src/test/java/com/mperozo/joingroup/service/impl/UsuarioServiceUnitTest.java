@@ -36,16 +36,16 @@ public class UsuarioServiceUnitTest {
 	public void deveValidarQueEmailAindaNaoFoiCadastrado() {
 
 		lenient().when(usuarioRepositoryMock.existsByEmail(anyString())).thenReturn(false);
-		usuarioService.verificarSeEmailJaEstaCadastrado(TestUtils.EMAIL_PARA_TESTE);
+		usuarioService.verificarSeEmailJaEstaCadastrado(TestUtils.EMAIL_USUARIO_TESTE);
 	}
 
 	@Test
 	public void deveValidarQueEmailJaFoiCadastradoELancarException() {
 
-		lenient().when(usuarioRepositoryMock.existsByEmail(TestUtils.EMAIL_PARA_TESTE)).thenReturn(true);
+		lenient().when(usuarioRepositoryMock.existsByEmail(TestUtils.EMAIL_USUARIO_TESTE)).thenReturn(true);
 
 		Exception exception = assertThrows(BusinessException.class, () -> {
-			usuarioService.verificarSeEmailJaEstaCadastrado(TestUtils.EMAIL_PARA_TESTE);
+			usuarioService.verificarSeEmailJaEstaCadastrado(TestUtils.EMAIL_USUARIO_TESTE);
 		});
 
 		assertThat(exception)
@@ -57,10 +57,10 @@ public class UsuarioServiceUnitTest {
 	@Test
 	public void deveAutenticarUmUsuarioComSucesso() {
 
-		Usuario usuario = criarUsuario("Marcos", TestUtils.EMAIL_PARA_TESTE, TestUtils.SENHA_PARA_TESTE);
-		lenient().when(usuarioRepositoryMock.findByEmail(TestUtils.EMAIL_PARA_TESTE)).thenReturn(Optional.of(usuario));
+		Usuario usuario = criarUsuario("Marcos", TestUtils.EMAIL_USUARIO_TESTE, TestUtils.SENHA_USUARIO_TESTE);
+		lenient().when(usuarioRepositoryMock.findByEmail(TestUtils.EMAIL_USUARIO_TESTE)).thenReturn(Optional.of(usuario));
 
-		Usuario usuarioAutenticado = usuarioService.autenticar(TestUtils.EMAIL_PARA_TESTE, TestUtils.SENHA_PARA_TESTE);
+		Usuario usuarioAutenticado = usuarioService.autenticar(TestUtils.EMAIL_USUARIO_TESTE, TestUtils.SENHA_USUARIO_TESTE);
 
 		assertThat(usuarioAutenticado).isEqualToComparingFieldByField(usuarioAutenticado);
 	}
@@ -71,7 +71,7 @@ public class UsuarioServiceUnitTest {
 		lenient().when(usuarioRepositoryMock.findByEmail(anyString())).thenReturn(Optional.empty());
 
 		Exception exception = assertThrows(AuthenticationException.class, () -> {
-			usuarioService.autenticar(TestUtils.EMAIL_PARA_TESTE, TestUtils.SENHA_PARA_TESTE);
+			usuarioService.autenticar(TestUtils.EMAIL_USUARIO_TESTE, TestUtils.SENHA_USUARIO_TESTE);
 		});
 
 		assertThat(exception)
@@ -82,11 +82,11 @@ public class UsuarioServiceUnitTest {
 	@Test
 	public void deveLancarExceptionAoVerificarQueASenhaNaoEstaCorreta() {
 
-		Usuario usuario = criarUsuario("Marcos", TestUtils.EMAIL_PARA_TESTE, TestUtils.SENHA_PARA_TESTE);
-		lenient().when(usuarioRepositoryMock.findByEmail(TestUtils.EMAIL_PARA_TESTE)).thenReturn(Optional.of(usuario));
+		Usuario usuario = criarUsuario("Marcos", TestUtils.EMAIL_USUARIO_TESTE, TestUtils.SENHA_USUARIO_TESTE);
+		lenient().when(usuarioRepositoryMock.findByEmail(TestUtils.EMAIL_USUARIO_TESTE)).thenReturn(Optional.of(usuario));
 
 		Exception exception = assertThrows(AuthenticationException.class, () -> {
-			usuarioService.autenticar(TestUtils.EMAIL_PARA_TESTE, "SENHA2");
+			usuarioService.autenticar(TestUtils.EMAIL_USUARIO_TESTE, "SENHA2");
 		});
 
 		assertThat(exception)
@@ -97,8 +97,8 @@ public class UsuarioServiceUnitTest {
 	@Test
 	public void deveIncluirUsuarioComSucesso() {
 		
-		Usuario usuario = TestUtils.criarUsuario(TestUtils.EMAIL_PARA_TESTE, TestUtils.SENHA_PARA_TESTE);
-		lenient().doNothing().when(usuarioService).verificarSeEmailJaEstaCadastrado(TestUtils.EMAIL_PARA_TESTE);
+		Usuario usuario = TestUtils.criarUsuario(TestUtils.EMAIL_USUARIO_TESTE, TestUtils.SENHA_USUARIO_TESTE);
+		lenient().doNothing().when(usuarioService).verificarSeEmailJaEstaCadastrado(TestUtils.EMAIL_USUARIO_TESTE);
 		lenient().when(usuarioRepositoryMock.save(usuario)).thenReturn(usuario);
 		
 		Usuario result = usuarioService.salvarUsuario(usuario);
@@ -109,8 +109,8 @@ public class UsuarioServiceUnitTest {
 	@Test
 	public void deveLancarExceptionAoTentarSalvarUsuarioComEmailJaCadastrado() {
 		
-		Usuario usuario = criarUsuario("Marcos", TestUtils.EMAIL_PARA_TESTE, TestUtils.SENHA_PARA_TESTE);
-		lenient().doThrow(BusinessException.class).when(usuarioService).verificarSeEmailJaEstaCadastrado(TestUtils.EMAIL_PARA_TESTE);
+		Usuario usuario = criarUsuario("Marcos", TestUtils.EMAIL_USUARIO_TESTE, TestUtils.SENHA_USUARIO_TESTE);
+		lenient().doThrow(BusinessException.class).when(usuarioService).verificarSeEmailJaEstaCadastrado(TestUtils.EMAIL_USUARIO_TESTE);
 		
 		assertThrows(BusinessException.class, () -> {
 			usuarioService.salvarUsuario(usuario);

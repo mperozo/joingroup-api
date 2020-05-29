@@ -16,6 +16,8 @@ public class CampanhaDTO {
 	private Long id;
 	private Long idUsuarioResponsavel;
 	private String nome;
+	private String empresa;
+	private String link;
 	private String url;
 	private StatusCampanhaEnum status;
 	private String telefoneSuporte;

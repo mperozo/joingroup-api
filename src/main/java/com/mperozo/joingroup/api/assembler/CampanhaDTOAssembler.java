@@ -24,12 +24,12 @@ public class CampanhaDTOAssembler {
 		return Campanha.builder()
 				.nome(dto.getNome())
 				.usuarioResponsavel(usuarioResponsavel)
-				.url(dto.getUrl())
+				.empresa(dto.getEmpresa())
+				.link(dto.getLink())
 				.status(dto.getStatus())
 				.telefoneSuporte(dto.getTelefoneSuporte())
 				.groupClickLimit(dto.getGroupClickLimit())
 				.endUrl(dto.getEndUrl()).build();
-				
 	}
 
 	public CampanhaDTO toDTO(Campanha entity) {
@@ -37,6 +37,8 @@ public class CampanhaDTOAssembler {
 		return CampanhaDTO.builder()
 				.id(entity.getId())
 				.nome(entity.getNome())
+				.empresa(entity.getEmpresa())
+				.link(entity.getLink())
 				.url(entity.getUrl())
 				.status(entity.getStatus())
 				.telefoneSuporte(entity.getTelefoneSuporte())

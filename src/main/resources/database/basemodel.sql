@@ -17,8 +17,10 @@ CREATE TABLE joingroup.campanha
 (
 	id bigserial NOT NULL PRIMARY KEY,
 	nome character varying(150) NOT NULL,
+	empresa character varying(100) NOT NULL,
+	link character varying(100) NOT NULL,
 	url character varying(300) NOT NULL,
-	id_usuario_responsavel bigint references joingroup.usuario(id),
+	id_usuario_responsavel bigint references joingroup.usuario(id) NOT NULL,
 	end_url character varying(300) NOT NULL,
 	telefone_suporte character varying(16) NOT NULL,
 	group_click_limit integer NOT NULL,

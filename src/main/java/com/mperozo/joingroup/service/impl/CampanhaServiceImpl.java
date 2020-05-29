@@ -1,6 +1,5 @@
 package com.mperozo.joingroup.service.impl;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -13,18 +12,29 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.mperozo.joingroup.exception.BusinessException;
 import com.mperozo.joingroup.model.entity.Campanha;
+import com.mperozo.joingroup.model.entity.Usuario;
 import com.mperozo.joingroup.model.enums.StatusCampanhaEnum;
 import com.mperozo.joingroup.model.repository.CampanhaRepository;
 import com.mperozo.joingroup.service.CampanhaService;
+import com.mperozo.joingroup.service.UsuarioService;
+import com.mperozo.joingroup.service.impl.validation.CampanhaValidator;
 
 
 @Service
 public class CampanhaServiceImpl implements CampanhaService {
+	
+	private static final String DOMINIO = "http://joingroup";
 
 	Logger logger = LoggerFactory.getLogger(CampanhaServiceImpl.class);
 
 	@Autowired
 	private CampanhaRepository campanhaRepository;
+	
+	@Autowired
+	private UsuarioService usuarioService;
+	
+	@Autowired
+	private CampanhaValidator campanhaValidator;
 	
 	public CampanhaServiceImpl(CampanhaRepository campanhaRepository) {
 		super();
@@ -34,7 +44,14 @@ public class CampanhaServiceImpl implements CampanhaService {
 	@Override
 	@Transactional(readOnly = true)
 	public List<Campanha> buscarPorUsuarioResponsavel(Long idUsuarioResponsavel) {
-		List<Campanha> campanhas = campanhaRepository.findByUsuarioResponsavel(idUsuarioResponsavel);
+
+		Usuario usuarioResponsavel = usuarioService.buscarPorId(idUsuarioResponsavel);
+		
+		if(usuarioResponsavel == null) {
+			throw new BusinessException("Usuário não encontrado na base dados com o id = " + idUsuarioResponsavel);
+		}
+		
+		List<Campanha> campanhas = campanhaRepository.findByUsuarioResponsavel(usuarioResponsavel);
 		return campanhas;
 	}
 
@@ -54,16 +71,11 @@ public class CampanhaServiceImpl implements CampanhaService {
 	@Transactional
 	public Campanha salvarCampanha(Campanha campanha) {
 		
+		campanhaValidator.validarCampanha(campanha);
+
 		campanha.setStatus(StatusCampanhaEnum.ATIVO);
 		campanha.setDataHoraInclusao(LocalDateTime.now());
 		
-		if(campanha.getDataValidade() != null && campanha.getDataValidade().isBefore(LocalDate.now())) {
-			throw new BusinessException("Data de validade da campanha deve ser posterior a data corrente.");
-		}
-		
-		if(campanha.getUsuarioResponsavel() == null) {
-			throw new BusinessException("Usuário responsável é obrigatório.");
-		}
 		
 		return campanhaRepository.save(campanha);
 	}
@@ -80,30 +92,25 @@ public class CampanhaServiceImpl implements CampanhaService {
 
 	private Campanha atualizarCampanha(Campanha campanhaComNovosDados, Campanha campanhaAntiga) {
 		
-		validarAlteracaoDeCampanha(campanhaComNovosDados, campanhaAntiga);
+		campanhaValidator.validarAlteracaoDeCampanha(campanhaComNovosDados, campanhaAntiga);
 		
 		campanhaAntiga.setDataHoraAlteracao(LocalDateTime.now());
 		campanhaAntiga.setDataValidade(campanhaComNovosDados.getDataValidade());
 		campanhaAntiga.setGroupClickLimit(campanhaComNovosDados.getGroupClickLimit());
 		campanhaAntiga.setNome(campanhaComNovosDados.getNome());
 		campanhaAntiga.setTelefoneSuporte(campanhaComNovosDados.getTelefoneSuporte());
-		campanhaAntiga.setUrl(campanhaComNovosDados.getUrl());
+		campanhaAntiga.setEmpresa(campanhaComNovosDados.getEmpresa());
+		campanhaAntiga.setLink(campanhaComNovosDados.getLink());
+		campanhaAntiga.setUrl(criarURL(campanhaComNovosDados.getEmpresa(), campanhaComNovosDados.getLink()));
 		campanhaAntiga.setEndUrl(campanhaComNovosDados.getEndUrl());
 		
 		return campanhaAntiga;
 	}
 
-	private void validarAlteracaoDeCampanha(Campanha campanhaComNovosDados, Campanha campanhaAntiga) {
-
-		if(campanhaComNovosDados.getUsuarioResponsavel() != campanhaAntiga.getUsuarioResponsavel()) {
-			throw new BusinessException("Não é possível alterar o usuário responsável pela campanha.");
-		}
-		
-		if(campanhaComNovosDados.getStatus() != campanhaAntiga.getStatus()) {
-			throw new BusinessException("Não é possível alterar o status de uma campanha através da edição de campanha.");
-		}
+	private String criarURL(String empresa, String link) {
+		return DOMINIO + "/" + empresa + "/" + link;
 	}
-
+	
 	@Override
 	public void excluir(Long id) {
 		campanhaRepository.deleteById(id);
