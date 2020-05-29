@@ -1,6 +1,8 @@
 package com.mperozo.joingroup.utils;
 
 import java.time.LocalDateTime;
+import java.util.LinkedList;
+import java.util.List;
 
 import com.mperozo.joingroup.api.dto.UsuarioDTO;
 import com.mperozo.joingroup.model.entity.Campanha;
@@ -53,5 +55,30 @@ public class TestUtils {
 	
 	public static String criarURL(String empresa, String link) {
 		return DOMINIO + "/" + empresa + "/" + link;
+	}
+
+	public static Campanha criarCampanhaDefault() {
+		
+		return criarCampanha(TestUtils.NOME_CAMPANHA_TESTE, 
+													TestUtils.EMPRESA_CAMPANHA_TESTE,
+													TestUtils.LINK_CAMPANHA_TESTE,
+													TestUtils.criarUsuario(TestUtils.EMAIL_USUARIO_TESTE, TestUtils.SENHA_USUARIO_TESTE), 
+													TestUtils.GROUP_CLICL_LIMIT_TESTE, 
+													LocalDateTime.now());
+	}
+	
+	public static List<Campanha> criarListaDeCampanhasDefault(int quantidadeCampanhas) {
+		
+		List<Campanha> campanhas = new LinkedList<Campanha>();
+		
+		for(int i = 0; i < quantidadeCampanhas; i++) {
+			campanhas.add(criarCampanhaDefault());
+		}
+		
+		return campanhas;
+	}
+
+	public static Usuario criarUsuarioDefault() {
+		return criarUsuario(TestUtils.EMAIL_USUARIO_TESTE, TestUtils.SENHA_USUARIO_TESTE);
 	}
 }

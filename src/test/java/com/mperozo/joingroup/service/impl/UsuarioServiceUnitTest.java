@@ -51,7 +51,6 @@ public class UsuarioServiceUnitTest {
 		assertThat(exception)
 					.isInstanceOf(BusinessException.class)
 					.hasMessage("E-mail já cadastrado.");
-		
 	}
 
 	@Test

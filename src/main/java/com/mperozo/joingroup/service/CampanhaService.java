@@ -14,5 +14,5 @@ public interface CampanhaService {
 
 	Campanha atualizarCampanha(Long id, Campanha campanhaComNovosDados);
 
-	void excluir(Long id);
+	void deletar(Long id);
 }

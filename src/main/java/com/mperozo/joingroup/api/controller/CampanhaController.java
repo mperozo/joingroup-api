@@ -79,7 +79,7 @@ public class CampanhaController {
 	public ResponseEntity deletarCampanha(@PathVariable("id") Long id) {
 		
 		try {
-			campanhaService.excluir(id);
+			campanhaService.deletar(id);
 			return new ResponseEntity(HttpStatus.NO_CONTENT); 
 		} catch(BusinessException e) {
 			return ResponseEntity.badRequest().body(e.getMessage());

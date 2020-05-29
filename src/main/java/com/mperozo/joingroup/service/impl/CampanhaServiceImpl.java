@@ -23,6 +23,7 @@ import com.mperozo.joingroup.service.impl.validation.CampanhaValidator;
 @Service
 public class CampanhaServiceImpl implements CampanhaService {
 	
+	//TODO colocar em um configuracaoService
 	private static final String DOMINIO = "http://joingroup";
 
 	Logger logger = LoggerFactory.getLogger(CampanhaServiceImpl.class);
@@ -76,7 +77,6 @@ public class CampanhaServiceImpl implements CampanhaService {
 		campanha.setStatus(StatusCampanhaEnum.ATIVO);
 		campanha.setDataHoraInclusao(LocalDateTime.now());
 		
-		
 		return campanhaRepository.save(campanha);
 	}
 
@@ -85,14 +85,13 @@ public class CampanhaServiceImpl implements CampanhaService {
 	public Campanha atualizarCampanha(Long id, Campanha campanhaComNovosDados) {
 
 		Campanha campanhaAntiga = buscarPorId(id);
+		campanhaValidator.validarAlteracaoDeCampanha(campanhaComNovosDados, campanhaAntiga);
 		Campanha campanhaAtualizada = atualizarCampanha(campanhaComNovosDados, campanhaAntiga);
 		
 		return campanhaRepository.saveAndFlush(campanhaAtualizada);
 	}
 
 	private Campanha atualizarCampanha(Campanha campanhaComNovosDados, Campanha campanhaAntiga) {
-		
-		campanhaValidator.validarAlteracaoDeCampanha(campanhaComNovosDados, campanhaAntiga);
 		
 		campanhaAntiga.setDataHoraAlteracao(LocalDateTime.now());
 		campanhaAntiga.setDataValidade(campanhaComNovosDados.getDataValidade());
@@ -112,8 +111,16 @@ public class CampanhaServiceImpl implements CampanhaService {
 	}
 	
 	@Override
-	public void excluir(Long id) {
-		campanhaRepository.deleteById(id);
+	@Transactional
+	public void deletar(Long id) {
+		
+		Optional<Campanha> campanhaASerExcluida = campanhaRepository.findById(id);
+		
+		if(!campanhaASerExcluida.isPresent()) {
+			throw new BusinessException("Não foi encontrada a campanha a ser excluída de ID: " + id);
+		}
+		
+		campanhaRepository.delete(campanhaASerExcluida.get());
 	}
 
 }

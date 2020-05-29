@@ -19,16 +19,12 @@ public class CampanhaValidator {
 
 	public void validarCampanha(Campanha campanha) {
 		
-		if(campanha.getDataValidade() != null && campanha.getDataValidade().isBefore(LocalDate.now())) {
-			throw new BusinessException("Data de validade da campanha deve ser posterior a data corrente.");
-		}
-		
 		if(campanha.getUsuarioResponsavel() == null) {
 			throw new BusinessException("Usuário responsável é obrigatório.");
 		}
 		
+		validarDataValidadeAnteriorADataCorrente(campanha.getDataValidade());
 		validarNomeExistenteEntreCampanhasDoUsuario(campanha.getNome(), campanha.getUsuarioResponsavel());
-
 		validarURLExistente(campanha.getUrl());
 	}
 	
@@ -39,7 +35,12 @@ public class CampanhaValidator {
 		}
 		
 		if(campanhaComNovosDados.getStatus() != campanhaAntiga.getStatus()) {
-			throw new BusinessException("Não é possível alterar o status de uma campanha através da edição de campanha.");
+			throw new BusinessException("Não é possível alterar o status de uma campanha.");
+		}
+		
+		if(campanhaComNovosDados.getDataValidade() != campanhaAntiga.getDataValidade()) {
+			
+			validarDataValidadeAnteriorADataCorrente(campanhaComNovosDados.getDataValidade());
 		}
 		
 		if(campanhaComNovosDados.getNome() != campanhaAntiga.getNome()) {
@@ -52,6 +53,13 @@ public class CampanhaValidator {
 				campanhaComNovosDados.getUrl() != campanhaAntiga.getUrl()) {
 			
 			validarURLExistente(campanhaComNovosDados.getUrl());
+		}
+	}
+
+	protected void validarDataValidadeAnteriorADataCorrente(LocalDate dataValidade) {
+
+		if(dataValidade != null && dataValidade.isBefore(LocalDate.now())) {
+			throw new BusinessException("Data de validade da campanha deve ser posterior a data corrente.");
 		}
 	}
 
