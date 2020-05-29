@@ -1,6 +1,7 @@
 package com.mperozo.joingroup.service.impl;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -13,6 +14,7 @@ import com.mperozo.joingroup.exception.BusinessException;
 import com.mperozo.joingroup.model.entity.Campanha;
 import com.mperozo.joingroup.model.entity.Grupo;
 import com.mperozo.joingroup.model.repository.GrupoRepository;
+import com.mperozo.joingroup.service.CampanhaService;
 import com.mperozo.joingroup.service.GrupoService;
 
 
@@ -23,6 +25,9 @@ public class GrupoServiceImpl implements GrupoService {
 
 	@Autowired
 	private GrupoRepository grupoRepository;
+	
+	@Autowired
+	private CampanhaService campanhaService;
 
 	public GrupoServiceImpl(GrupoRepository grupoRepository) {
 		super();
@@ -42,14 +47,12 @@ public class GrupoServiceImpl implements GrupoService {
 	}
 
 	@Override
-	public Grupo buscarPorIdCampanha(Long id) {
-		Optional<Grupo> grupo = grupoRepository.findByCampanha(id);
+	public List<Grupo> buscarPorCampanha(Long idCampanha) {
 		
-		if(!grupo.isPresent()) {
-			throw new BusinessException("Grupo não encontrado na base de dados para campanha de ID = " + id );
-		}
+		Campanha campanha = campanhaService.buscarPorId(idCampanha);
+		List<Grupo> grupos = grupoRepository.findByCampanha(campanha);
 		
-		return grupo.get();
+		return grupos;
 	}
 
 	@Override
@@ -59,6 +62,40 @@ public class GrupoServiceImpl implements GrupoService {
 		grupo.setDataHoraInclusao(LocalDateTime.now());
 		
 		return grupoRepository.save(grupo);
+	}
+
+	@Override
+	public void deletar(Long id) {
+
+		Optional<Grupo> grupoASerExcluido = grupoRepository.findById(id);
+		
+		if(!grupoASerExcluido.isPresent()) {
+			throw new BusinessException("Não foi encontrado o grupo a ser excluído de ID: " + id);
+		}
+		
+		grupoRepository.delete(grupoASerExcluido.get());
+	}
+
+	@Override
+	@Transactional
+	public Grupo atualizarGrupo(Long id, Grupo grupoComNovosDados) {
+		
+		Grupo grupoAntigo = buscarPorId(id);
+		//TODO validator
+		// nao pode trocar campanha
+		Grupo grupoAtualizado = atualizargrupo(grupoComNovosDados, grupoAntigo);
+		
+		return grupoRepository.saveAndFlush(grupoAtualizado);
+	}
+
+	private Grupo atualizargrupo(Grupo grupoComNovosDados, Grupo grupoAntigo) {
+		
+		grupoAntigo.setDataHoraAlteracao(LocalDateTime.now());
+		grupoAntigo.setNome(grupoComNovosDados.getNome());
+		grupoAntigo.setTotalRedirect(grupoComNovosDados.getTotalRedirect());
+		grupoAntigo.setUrl(grupoComNovosDados.getUrl());
+		
+		return grupoAntigo;
 	}
 
 }

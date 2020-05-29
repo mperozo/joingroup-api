@@ -48,10 +48,6 @@ public class CampanhaServiceImpl implements CampanhaService {
 
 		Usuario usuarioResponsavel = usuarioService.buscarPorId(idUsuarioResponsavel);
 		
-		if(usuarioResponsavel == null) {
-			throw new BusinessException("Usuário não encontrado na base dados com o id = " + idUsuarioResponsavel);
-		}
-		
 		List<Campanha> campanhas = campanhaRepository.findByUsuarioResponsavel(usuarioResponsavel);
 		return campanhas;
 	}

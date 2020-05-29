@@ -61,20 +61,6 @@ public class CampanhaServiceUnitTest {
 	}
 	
 	@Test
-	public void deveLancarExceptionAoBuscarCampanhasDeUsuarioENaoEncontrarEleNaBase() {
-		
-		Exception exception = assertThrows(BusinessException.class, () -> {
-			campanhaService.buscarPorUsuarioResponsavel(1L);
-		});
-
-		assertThat(exception)
-			.isInstanceOf(BusinessException.class)
-			.hasMessage("Usuário não encontrado na base dados com o id = 1");
-		
-		verify(campanhaRepositoryMock, Mockito.times(0)).findByUsuarioResponsavel(Mockito.any(Usuario.class));
-	}
-
-	@Test
 	public void deveIncluirCampanhaComSucesso() {
 		
 		Campanha campanha = TestUtils.criarCampanhaDefault();
