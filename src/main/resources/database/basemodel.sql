@@ -26,6 +26,12 @@ CREATE TABLE joingroup.campanha
 	group_click_limit integer NOT NULL,
 	status character varying(10) NOT NULL,
 	data_validade TIMESTAMP,
+	tipo_redirect character varying(150) NOT NULL,
+	titulo_redirect character varying(150),
+	subtitulo_redirect character varying(300),
+	tempo_redirect integer,
+	titulo_metatag character varying(150),
+	descricao_metatag character varying(300),
 	data_hora_inclusao TIMESTAMP DEFAULT now() NOT NULL,
 	data_hora_alteracao TIMESTAMP
 );
@@ -39,4 +45,13 @@ CREATE TABLE joingroup.grupo
 	id_campanha bigint references joingroup.campanha(id),
 	data_hora_inclusao TIMESTAMP DEFAULT now() NOT NULL,
 	data_hora_alteracao TIMESTAMP
+);
+
+CREATE TABLE joingroup.rastreio
+(
+	id bigserial NOT NULL PRIMARY KEY,
+	tipo character varying(10) NOT NULL,
+	codigo character varying(150),
+	script character varying(500),
+	id_campanha bigint references joingroup.campanha(id)
 );

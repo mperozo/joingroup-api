@@ -29,7 +29,13 @@ public class CampanhaDTOAssembler {
 				.status(dto.getStatus())
 				.telefoneSuporte(dto.getTelefoneSuporte())
 				.groupClickLimit(dto.getGroupClickLimit())
-				.endUrl(dto.getEndUrl()).build();
+				.endUrl(dto.getEndUrl())
+				.tipoRedirect(dto.getTipoRedirect())
+				.tituloRedirect(dto.getTituloRedirect())
+				.subtituloRedirect(dto.getSubtituloRedirect())
+				.tempoRedirect(dto.getTempoRedirect())
+				.tituloMetatag(dto.getTituloMetatag())
+				.descricaoMetatag(dto.getDescricaoMetatag()).build();
 	}
 
 	public CampanhaDTO toDTO(Campanha entity) {
@@ -43,7 +49,14 @@ public class CampanhaDTOAssembler {
 				.status(entity.getStatus())
 				.telefoneSuporte(entity.getTelefoneSuporte())
 				.groupClickLimit(entity.getGroupClickLimit())
-				.endUrl(entity.getEndUrl()).build();
+				.endUrl(entity.getEndUrl())
+				.tipoRedirect(entity.getTipoRedirect())
+				.tituloRedirect(entity.getTituloRedirect())
+				.subtituloRedirect(entity.getSubtituloRedirect())
+				.tempoRedirect(entity.getTempoRedirect())
+				.tituloMetatag(entity.getTituloMetatag())
+				.descricaoMetatag(entity.getDescricaoMetatag())
+				.build();
 	}
 	
 	public List<CampanhaDTO> toDTOList(List<Campanha> entityList) {

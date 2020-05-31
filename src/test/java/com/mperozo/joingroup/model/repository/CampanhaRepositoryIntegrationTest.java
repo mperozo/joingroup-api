@@ -19,6 +19,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.mperozo.joingroup.model.entity.Campanha;
 import com.mperozo.joingroup.model.entity.Usuario;
+import com.mperozo.joingroup.model.enums.TipoRedirectEnum;
 import com.mperozo.joingroup.utils.TestUtils;
 
 @ExtendWith(SpringExtension.class)
@@ -37,7 +38,13 @@ public class CampanhaRepositoryIntegrationTest {
 	public void devePersistirUmaCampanhaNaBaseDeDados() {
 		
 		Usuario usuarioResponsavel = TestUtils.criarUsuario(TestUtils.EMAIL_USUARIO_TESTE, TestUtils.SENHA_USUARIO_TESTE);
-		Campanha campanha = TestUtils.criarCampanha( "Campanha Teste", TestUtils.EMPRESA_CAMPANHA_TESTE, TestUtils.LINK_CAMPANHA_TESTE, usuarioResponsavel, 200, LocalDateTime.now() );
+		Campanha campanha = TestUtils.criarCampanha( "Campanha Teste", 
+														TestUtils.EMPRESA_CAMPANHA_TESTE, 
+														TestUtils.LINK_CAMPANHA_TESTE, 
+														usuarioResponsavel, 
+														200, 
+														TipoRedirectEnum.BOTAO, 
+														LocalDateTime.now() );
 		
 		Usuario usuarioResponsavelSalvo = entityManager.persist(usuarioResponsavel);
 		Campanha campanhaSalva = entityManager.persist(campanha);
@@ -50,11 +57,11 @@ public class CampanhaRepositoryIntegrationTest {
 	public void deveBuscarCampanhasDeUmUsuarioResponsavel() {
 		
 		Usuario usuarioResponsavel1 = TestUtils.criarUsuario(TestUtils.EMAIL_USUARIO_TESTE, TestUtils.SENHA_USUARIO_TESTE);
-		Campanha campanha1 = TestUtils.criarCampanha( "Campanha Teste 1", TestUtils.EMPRESA_CAMPANHA_TESTE, TestUtils.LINK_CAMPANHA_TESTE, usuarioResponsavel1, 200, LocalDateTime.now() );
-		Campanha campanha2 = TestUtils.criarCampanha( "Campanha Teste 2", TestUtils.EMPRESA_CAMPANHA_TESTE, TestUtils.LINK_CAMPANHA_TESTE, usuarioResponsavel1, 200, LocalDateTime.now() );
+		Campanha campanha1 = TestUtils.criarCampanha( "Campanha Teste 1", TestUtils.EMPRESA_CAMPANHA_TESTE, TestUtils.LINK_CAMPANHA_TESTE, usuarioResponsavel1, 200, TipoRedirectEnum.BOTAO, LocalDateTime.now() );
+		Campanha campanha2 = TestUtils.criarCampanha( "Campanha Teste 2", TestUtils.EMPRESA_CAMPANHA_TESTE, TestUtils.LINK_CAMPANHA_TESTE, usuarioResponsavel1, 200, TipoRedirectEnum.BOTAO, LocalDateTime.now() );
 		
 		Usuario usuarioResponsavel2 = TestUtils.criarUsuario(TestUtils.EMAIL_USUARIO_TESTE, TestUtils.SENHA_USUARIO_TESTE);
-		Campanha campanha3 = TestUtils.criarCampanha( "Campanha Teste 3", TestUtils.EMPRESA_CAMPANHA_TESTE, TestUtils.LINK_CAMPANHA_TESTE, usuarioResponsavel2, 200, LocalDateTime.now() );
+		Campanha campanha3 = TestUtils.criarCampanha( "Campanha Teste 3", TestUtils.EMPRESA_CAMPANHA_TESTE, TestUtils.LINK_CAMPANHA_TESTE, usuarioResponsavel2, 200, TipoRedirectEnum.BOTAO, LocalDateTime.now() );
 
 		entityManager.persist(usuarioResponsavel1);
 		entityManager.persist(campanha1);

@@ -19,6 +19,7 @@ import javax.validation.constraints.NotBlank;
 import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
 
 import com.mperozo.joingroup.model.enums.StatusCampanhaEnum;
+import com.mperozo.joingroup.model.enums.TipoRedirectEnum;
 import com.sun.istack.NotNull;
 
 import lombok.AllArgsConstructor;
@@ -76,6 +77,26 @@ public class Campanha {
 	@Column(name = "DATA_VALIDADE")
 	@Convert(converter = Jsr310JpaConverters.LocalDateConverter.class)
 	private LocalDate dataValidade;
+	
+	@Column(name = "TIPO_REDIRECT")
+	@Enumerated(value = EnumType.STRING)
+	@NotNull
+	private TipoRedirectEnum tipoRedirect;
+	
+	@Column(name = "TITULO_REDIRECT")
+	private String tituloRedirect;
+	
+	@Column(name = "SUBTITULO_REDIRECT")
+	private String subtituloRedirect;
+	
+	@Column(name = "TEMPO_REDIRECT")
+	private Integer tempoRedirect;
+
+	@Column(name = "TITULO_METATAG")
+	private String tituloMetatag;
+	
+	@Column(name = "DESCRICAO_METATAG")
+	private String descricaoMetatag;
 	
 	@Column(name = "DATA_HORA_INCLUSAO")
 	@Convert(converter = Jsr310JpaConverters.LocalDateTimeConverter.class)

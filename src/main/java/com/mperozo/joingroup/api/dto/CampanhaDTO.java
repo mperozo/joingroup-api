@@ -1,6 +1,7 @@
 package com.mperozo.joingroup.api.dto;
 
 import com.mperozo.joingroup.model.enums.StatusCampanhaEnum;
+import com.mperozo.joingroup.model.enums.TipoRedirectEnum;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,4 +24,10 @@ public class CampanhaDTO {
 	private String telefoneSuporte;
 	private Integer groupClickLimit;
 	private String endUrl;
+	private TipoRedirectEnum tipoRedirect;
+	private String tituloRedirect;
+	private String subtituloRedirect;
+	private Integer tempoRedirect;
+	private String tituloMetatag;
+	private String descricaoMetatag;
 }

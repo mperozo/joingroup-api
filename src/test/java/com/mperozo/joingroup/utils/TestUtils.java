@@ -9,6 +9,7 @@ import com.mperozo.joingroup.model.entity.Campanha;
 import com.mperozo.joingroup.model.entity.Grupo;
 import com.mperozo.joingroup.model.entity.Usuario;
 import com.mperozo.joingroup.model.enums.StatusUsuarioEnum;
+import com.mperozo.joingroup.model.enums.TipoRedirectEnum;
 
 public class TestUtils {
 
@@ -46,7 +47,7 @@ public class TestUtils {
 				.build();
 	}
 
-	public static Campanha criarCampanha(String nome, String empresa, String link, Usuario usuarioResponsavel, Integer groupClickLimit, LocalDateTime dataHoraInclusao) {
+	public static Campanha criarCampanha(String nome, String empresa, String link, Usuario usuarioResponsavel, Integer groupClickLimit, TipoRedirectEnum tipoRedirect, LocalDateTime dataHoraInclusao) {
 		return Campanha.builder()
 					.nome(nome)
 					.empresa(empresa)
@@ -54,6 +55,7 @@ public class TestUtils {
 					.url(criarURLCampanha(empresa, link))
 					.usuarioResponsavel(usuarioResponsavel)
 					.groupClickLimit(groupClickLimit)
+					.tipoRedirect(tipoRedirect)
 					.dataHoraInclusao(dataHoraInclusao).build();
 	}
 	
@@ -67,7 +69,8 @@ public class TestUtils {
 								TestUtils.EMPRESA_CAMPANHA_TESTE,
 								TestUtils.LINK_CAMPANHA_TESTE,
 								TestUtils.criarUsuario(TestUtils.EMAIL_USUARIO_TESTE, TestUtils.SENHA_USUARIO_TESTE), 
-								TestUtils.GROUP_CLICL_LIMIT_TESTE, 
+								TestUtils.GROUP_CLICL_LIMIT_TESTE,
+								TipoRedirectEnum.BOTAO,
 								LocalDateTime.now());
 	}
 	
