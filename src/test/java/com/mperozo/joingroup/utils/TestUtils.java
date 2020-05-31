@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.mperozo.joingroup.api.dto.UsuarioDTO;
 import com.mperozo.joingroup.model.entity.Campanha;
+import com.mperozo.joingroup.model.entity.Grupo;
 import com.mperozo.joingroup.model.entity.Usuario;
 import com.mperozo.joingroup.model.enums.StatusUsuarioEnum;
 
@@ -19,6 +20,9 @@ public class TestUtils {
 	public static final String EMPRESA_CAMPANHA_TESTE = "mperozo";
 	public static final String LINK_CAMPANHA_TESTE = "promocao-verao";
 	public static final Integer GROUP_CLICL_LIMIT_TESTE = 200;
+	
+	public static final String NOME_GRUPO_TESTE = "Nome Grupo teste";
+	public static final String URL_GRUPO_TESTE = "www.whatsapp.grupo/01";
 	
 	private TestUtils() {}
 	
@@ -47,24 +51,24 @@ public class TestUtils {
 					.nome(nome)
 					.empresa(empresa)
 					.link(link)
-					.url(criarURL(empresa, link))
+					.url(criarURLCampanha(empresa, link))
 					.usuarioResponsavel(usuarioResponsavel)
 					.groupClickLimit(groupClickLimit)
 					.dataHoraInclusao(dataHoraInclusao).build();
 	}
 	
-	public static String criarURL(String empresa, String link) {
+	public static String criarURLCampanha(String empresa, String link) {
 		return DOMINIO + "/" + empresa + "/" + link;
 	}
 
 	public static Campanha criarCampanhaDefault() {
 		
 		return criarCampanha(TestUtils.NOME_CAMPANHA_TESTE, 
-													TestUtils.EMPRESA_CAMPANHA_TESTE,
-													TestUtils.LINK_CAMPANHA_TESTE,
-													TestUtils.criarUsuario(TestUtils.EMAIL_USUARIO_TESTE, TestUtils.SENHA_USUARIO_TESTE), 
-													TestUtils.GROUP_CLICL_LIMIT_TESTE, 
-													LocalDateTime.now());
+								TestUtils.EMPRESA_CAMPANHA_TESTE,
+								TestUtils.LINK_CAMPANHA_TESTE,
+								TestUtils.criarUsuario(TestUtils.EMAIL_USUARIO_TESTE, TestUtils.SENHA_USUARIO_TESTE), 
+								TestUtils.GROUP_CLICL_LIMIT_TESTE, 
+								LocalDateTime.now());
 	}
 	
 	public static List<Campanha> criarListaDeCampanhasDefault(int quantidadeCampanhas) {
@@ -80,5 +84,27 @@ public class TestUtils {
 
 	public static Usuario criarUsuarioDefault() {
 		return criarUsuario(TestUtils.EMAIL_USUARIO_TESTE, TestUtils.SENHA_USUARIO_TESTE);
+	}
+
+	public static Grupo criarGrupoDefault() {
+		return criarGrupo(TestUtils.NOME_GRUPO_TESTE, TestUtils.URL_GRUPO_TESTE, criarCampanhaDefault(), LocalDateTime.now());
+	}
+
+	public static Grupo criarGrupo(String nomeGrupoTeste, String urlGrupoTeste, Campanha campanha, LocalDateTime dataHoraInclusao) {
+		return Grupo.builder().campanha(campanha)
+				.nome(nomeGrupoTeste)
+				.url(urlGrupoTeste)
+				.dataHoraInclusao(dataHoraInclusao).build();
+	}
+	
+	public static List<Grupo> criarListaDeGruposDefault(int quantidadeGrupos) {
+		
+		List<Grupo> grupos = new LinkedList<Grupo>();
+		
+		for(int i = 0; i < quantidadeGrupos; i++) {
+			grupos.add(criarGrupoDefault());
+		}
+		
+		return grupos;
 	}
 }

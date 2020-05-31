@@ -6,7 +6,6 @@ import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.verify;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
@@ -47,9 +46,7 @@ public class CampanhaServiceUnitTest {
 		
 		Usuario usuario = TestUtils.criarUsuarioDefault();
 		
-		List<Campanha> campanhasDoUsuario = new LinkedList<Campanha>();
-		campanhasDoUsuario.add(TestUtils.criarCampanhaDefault());
-		campanhasDoUsuario.add(TestUtils.criarCampanhaDefault());
+		List<Campanha> campanhasDoUsuario = TestUtils.criarListaDeCampanhasDefault(2);
 		
 		lenient().when(usuarioServiceMock.buscarPorId(Mockito.any(Long.class))).thenReturn(usuario);
 		lenient().when(campanhaRepositoryMock.findByUsuarioResponsavel(usuario)).thenReturn(campanhasDoUsuario);

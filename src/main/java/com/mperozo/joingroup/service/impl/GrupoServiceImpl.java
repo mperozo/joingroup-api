@@ -16,6 +16,7 @@ import com.mperozo.joingroup.model.entity.Grupo;
 import com.mperozo.joingroup.model.repository.GrupoRepository;
 import com.mperozo.joingroup.service.CampanhaService;
 import com.mperozo.joingroup.service.GrupoService;
+import com.mperozo.joingroup.service.impl.validation.GrupoValidator;
 
 
 @Service
@@ -28,6 +29,9 @@ public class GrupoServiceImpl implements GrupoService {
 	
 	@Autowired
 	private CampanhaService campanhaService;
+	
+	@Autowired
+	private GrupoValidator grupoValidator;
 
 	public GrupoServiceImpl(GrupoRepository grupoRepository) {
 		super();
@@ -59,6 +63,7 @@ public class GrupoServiceImpl implements GrupoService {
 	@Transactional
 	public Grupo salvarGrupo(Grupo grupo) {
 		
+		grupoValidator.validarGrupo(grupo);
 		grupo.setDataHoraInclusao(LocalDateTime.now());
 		
 		return grupoRepository.save(grupo);
@@ -81,8 +86,7 @@ public class GrupoServiceImpl implements GrupoService {
 	public Grupo atualizarGrupo(Long id, Grupo grupoComNovosDados) {
 		
 		Grupo grupoAntigo = buscarPorId(id);
-		//TODO validator
-		// nao pode trocar campanha
+		grupoValidator.validarAlteracaoDeGrupo(grupoComNovosDados, grupoAntigo);
 		Grupo grupoAtualizado = atualizargrupo(grupoComNovosDados, grupoAntigo);
 		
 		return grupoRepository.saveAndFlush(grupoAtualizado);

@@ -43,7 +43,7 @@ public class CampanhaRepositoryIntegrationTest {
 		Campanha campanhaSalva = entityManager.persist(campanha);
 		
 		assertThat(campanhaSalva.getId()).isNotNull();
-		assertEquals(usuarioResponsavelSalvo, campanhaSalva.getUsuarioResponsavel());
+		assertThat(usuarioResponsavelSalvo).isEqualTo(campanhaSalva.getUsuarioResponsavel());
 	}
 	
 	@Test
@@ -65,8 +65,8 @@ public class CampanhaRepositoryIntegrationTest {
 		List<Campanha> resultCampanhasUsuario1 = campanhaRepository.findByUsuarioResponsavel(usuarioResponsavel1);
 		List<Campanha> resultCampanhasUsuario2 = campanhaRepository.findByUsuarioResponsavel(usuarioResponsavel2);
 
-		assertEquals(2, resultCampanhasUsuario1.size());
-		assertEquals(1, resultCampanhasUsuario2.size());
+		assertThat(2).isEqualTo(resultCampanhasUsuario1.size());
+		assertThat(1).isEqualTo(resultCampanhasUsuario2.size());
 	}
 	
 }
