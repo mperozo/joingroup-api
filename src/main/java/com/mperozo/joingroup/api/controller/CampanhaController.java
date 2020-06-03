@@ -23,7 +23,7 @@ import com.mperozo.joingroup.service.CampanhaService;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("joingroup/api/campanhas")
+@RequestMapping("joingroup/api")
 @RequiredArgsConstructor
 public class CampanhaController {
 	
@@ -33,8 +33,11 @@ public class CampanhaController {
 	@Autowired
 	private final CampanhaDTOAssembler campanhaDTOAssembler;
 	
-	@GetMapping("/buscar/{id}")
-	public ResponseEntity buscar(@PathVariable("id") Long id) {
+	//TODO definir da seguinte forma: separar em classes, porém a url fiel ao negócio
+	//joingroup/usuarios/{id}/campanhas/{id}/grupos
+	
+	@GetMapping("/v1/campanhas/{id}")
+	public ResponseEntity findById(@PathVariable("id") Long id) {
 		Campanha campanha = campanhaService.buscarPorId(id);
 		if(campanha == null) {
 			return new ResponseEntity(HttpStatus.NOT_FOUND);
@@ -42,16 +45,16 @@ public class CampanhaController {
 		return ResponseEntity.ok(campanha);
 	}
 	
-	@GetMapping("/buscar-por-usuario/{id}")
-	public ResponseEntity buscarPorUsuario(@PathVariable("id") Long idUsuarioResponsavel) {
+	@GetMapping("/v1/usuarios/{id}/campanhas")
+	public ResponseEntity findByIdUsuario(@PathVariable("id") Long idUsuarioResponsavel) {
 		List<Campanha> campanhas = campanhaService.buscarPorUsuarioResponsavel(idUsuarioResponsavel);
 		List<CampanhaDTO> campanhaDTOList = campanhaDTOAssembler.toDTOList(campanhas);
 
 		return ResponseEntity.ok(campanhaDTOList);
 	}
 	
-	@PostMapping("/salvar")
-	public ResponseEntity salvarCampanha(@RequestBody CampanhaDTO campanhaDTO) {
+	@PostMapping("/v1/campanhas/")
+	public ResponseEntity save(@RequestBody CampanhaDTO campanhaDTO) {
 
 		try {
 			Campanha campanha = campanhaDTOAssembler.toEntity(campanhaDTO);
@@ -62,8 +65,8 @@ public class CampanhaController {
 		}
 	}
 	
-	@PutMapping("{id}")
-	public ResponseEntity atualizarCampanha( @PathVariable("id") Long id, @RequestBody CampanhaDTO campanhaDTO) {
+	@PutMapping("/v1/campanhas/update/{id}")
+	public ResponseEntity update( @PathVariable("id") Long id, @RequestBody CampanhaDTO campanhaDTO) {
 		
 		try {
 			Campanha campanhaComNovosDados = campanhaDTOAssembler.toEntity(campanhaDTO);
@@ -75,8 +78,8 @@ public class CampanhaController {
 		}
 	}
 	
-	@DeleteMapping("{id}")
-	public ResponseEntity deletarCampanha(@PathVariable("id") Long id) {
+	@DeleteMapping("/v1/campanhas/{id}")
+	public ResponseEntity delete(@PathVariable("id") Long id) {
 		
 		try {
 			campanhaService.deletar(id);

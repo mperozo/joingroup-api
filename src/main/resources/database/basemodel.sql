@@ -1,4 +1,4 @@
-CREATE SCHEMA joingroup;
+--CREATE SCHEMA joingroup;
 
 CREATE TABLE joingroup.usuario
 (
@@ -53,5 +53,7 @@ CREATE TABLE joingroup.rastreio
 	tipo character varying(10) NOT NULL,
 	codigo character varying(150),
 	script character varying(500),
-	id_campanha bigint references joingroup.campanha(id)
+	id_campanha bigint references joingroup.campanha(id),
+	data_hora_inclusao TIMESTAMP DEFAULT now() NOT NULL,
+	data_hora_alteracao TIMESTAMP
 );

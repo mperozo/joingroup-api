@@ -14,72 +14,70 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.mperozo.joingroup.api.assembler.GrupoDTOAssembler;
-import com.mperozo.joingroup.api.dto.GrupoDTO;
+import com.mperozo.joingroup.api.assembler.RastreioDTOAssembler;
+import com.mperozo.joingroup.api.dto.RastreioDTO;
 import com.mperozo.joingroup.exception.BusinessException;
-import com.mperozo.joingroup.model.entity.Grupo;
-import com.mperozo.joingroup.service.GrupoService;
+import com.mperozo.joingroup.model.entity.Rastreio;
+import com.mperozo.joingroup.service.RastreioService;
 
 import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("joingroup/api")
 @RequiredArgsConstructor
-public class GrupoController {
+public class RastreioController {
 	
 	@Autowired
-	private final GrupoService grupoService;
+	private final RastreioService rastreioService;
 	
 	@Autowired
-	private final GrupoDTOAssembler grupoDTOAssembler;
+	private final RastreioDTOAssembler rastreioDTOAssembler;
 	
-	@GetMapping("/v1/grupos/{id}")
+	@GetMapping("/v1/rastreios/{id}")
 	public ResponseEntity findById(@PathVariable("id") Long id) {
-		Grupo grupo = grupoService.buscarPorId(id);
-		if(grupo == null) {
+		Rastreio rastreio = rastreioService.buscarPorId(id);
+		if(rastreio == null) {
 			return new ResponseEntity(HttpStatus.NOT_FOUND);
 		}
-		return ResponseEntity.ok(grupo);
+		return ResponseEntity.ok(rastreio);
 	}
 	
-	@GetMapping("/v1/campanhas/{id}/grupos")
+	@GetMapping("/v1/campanhas/{id}/rastreios")
 	public ResponseEntity findByIdCampanha(@PathVariable("id") Long idCampanha) {
-		List<Grupo> grupos = grupoService.buscarPorCampanha(idCampanha);
-		List<GrupoDTO> grupoDTOList = grupoDTOAssembler.toDTOList(grupos);
+		List<Rastreio> rastreios = rastreioService.buscarPorCampanha(idCampanha);
+		List<RastreioDTO> rastreioDTOList = rastreioDTOAssembler.toDTOList(rastreios);
 
-		return ResponseEntity.ok(grupoDTOList);
+		return ResponseEntity.ok(rastreioDTOList);
 	}
 	
-	@PostMapping("/v1/grupos/")
-	public ResponseEntity save(@RequestBody GrupoDTO grupoDTO) {
-
+	@PostMapping("/v1/rastreios")
+	public ResponseEntity save(@RequestBody RastreioDTO rastreioDTO) {
 		try {
-			Grupo grupo = grupoDTOAssembler.toEntity(grupoDTO);
-			Grupo grupoSalvo = grupoService.salvarGrupo(grupo);
-			return new ResponseEntity(grupoSalvo, HttpStatus.CREATED);
+			Rastreio rastreio = rastreioDTOAssembler.toEntity(rastreioDTO);
+			Rastreio rastreioSalvo = rastreioService.salvarRastreio(rastreio);
+			return new ResponseEntity(rastreioSalvo, HttpStatus.CREATED);
 		}catch(BusinessException e) {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
 	}
 	
-	@PutMapping("/v1/grupos/update/{id}")
-	public ResponseEntity update( @PathVariable("id") Long id, @RequestBody GrupoDTO grupoDTO) {
-		
+	@PutMapping("/v1/rastreios/update/{id}")
+	public ResponseEntity update( @PathVariable("id") Long id, @RequestBody RastreioDTO rastreioDTO) {
 		try {
-			Grupo grupoComNovosDados = grupoDTOAssembler.toEntity(grupoDTO);
-			Grupo grupoAtualizado = grupoService.atualizarGrupo(id, grupoComNovosDados);
+			Rastreio rastreioComNovosDados = rastreioDTOAssembler.toEntity(rastreioDTO);
+			Rastreio rastreioAtualizado = rastreioService.atualizarRastreio(id, rastreioComNovosDados);
 			
-			return ResponseEntity.ok(grupoAtualizado);
+			return ResponseEntity.ok(rastreioAtualizado);
 		} catch(BusinessException e) {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
 	}
 	
-	@DeleteMapping("/v1/grupos/{id}")
+	@DeleteMapping("/v1/rastreios/{id}")
 	public ResponseEntity delete(@PathVariable("id") Long id) {
 		
 		try {
-			grupoService.deletar(id);
+			rastreioService.deletar(id);
 			return new ResponseEntity(HttpStatus.NO_CONTENT); 
 		} catch(BusinessException e) {
 			return ResponseEntity.badRequest().body(e.getMessage());

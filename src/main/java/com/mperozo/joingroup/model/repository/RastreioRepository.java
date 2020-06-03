@@ -5,9 +5,9 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.mperozo.joingroup.model.entity.Campanha;
-import com.mperozo.joingroup.model.entity.Grupo;
+import com.mperozo.joingroup.model.entity.Rastreio;
 
-public interface RastreioRepository extends JpaRepository<Grupo, Long> {
+public interface RastreioRepository extends JpaRepository<Rastreio, Long> {
 
-	List<Grupo> findByCampanha(Campanha campanha);
+	List<Rastreio> findByCampanha(Campanha campanha);
 }

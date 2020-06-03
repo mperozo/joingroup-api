@@ -87,12 +87,12 @@ public class GrupoServiceImpl implements GrupoService {
 		
 		Grupo grupoAntigo = buscarPorId(id);
 		grupoValidator.validarAlteracaoDeGrupo(grupoComNovosDados, grupoAntigo);
-		Grupo grupoAtualizado = atualizargrupo(grupoComNovosDados, grupoAntigo);
+		Grupo grupoAtualizado = atualizarGrupo(grupoComNovosDados, grupoAntigo);
 		
 		return grupoRepository.saveAndFlush(grupoAtualizado);
 	}
 
-	private Grupo atualizargrupo(Grupo grupoComNovosDados, Grupo grupoAntigo) {
+	private Grupo atualizarGrupo(Grupo grupoComNovosDados, Grupo grupoAntigo) {
 		
 		grupoAntigo.setDataHoraAlteracao(LocalDateTime.now());
 		grupoAntigo.setNome(grupoComNovosDados.getNome());

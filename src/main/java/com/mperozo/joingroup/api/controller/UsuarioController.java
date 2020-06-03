@@ -20,7 +20,7 @@ import com.mperozo.joingroup.service.UsuarioService;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("joingroup/api/usuarios")
+@RequestMapping("joingroup/api")
 @RequiredArgsConstructor
 public class UsuarioController {
 	
@@ -30,8 +30,8 @@ public class UsuarioController {
 	@Autowired
 	private final UsuarioDTOAssembler usuarioDTOAssembler;
 	
-	@GetMapping("/buscar/{id}")
-	public ResponseEntity buscarUsuario(@PathVariable("id") Long id) {
+	@GetMapping("/v1/usuarios/{id}")
+	public ResponseEntity getById(@PathVariable("id") Long id) {
 		Usuario usuario = usuarioService.buscarPorId(id);
 		if(usuario == null) {
 			return new ResponseEntity(HttpStatus.NOT_FOUND);
@@ -39,8 +39,8 @@ public class UsuarioController {
 		return ResponseEntity.ok(usuario);
 	}
 	
-	@PostMapping("/salvar")
-	public ResponseEntity salvarUsuario(@RequestBody UsuarioDTO usuarioDTO) {
+	@PostMapping("/v1/usuarios/")
+	public ResponseEntity save(@RequestBody UsuarioDTO usuarioDTO) {
 		Usuario usuario = usuarioDTOAssembler.toEntity(usuarioDTO);
 		try {
 			Usuario usuarioSalvo = usuarioService.salvarUsuario(usuario);
@@ -50,8 +50,8 @@ public class UsuarioController {
 		}
 	}
 	
-	@PostMapping("/autenticar")
-	public ResponseEntity autenticar(@RequestBody UsuarioDTO usuarioDTO) {
+	@PostMapping("/v1/usuarios/login")
+	public ResponseEntity login(@RequestBody UsuarioDTO usuarioDTO) {
 		try {
 			Usuario usuarioAutenticado = usuarioService.autenticar(usuarioDTO.getEmail(), usuarioDTO.getSenha());
 			return ResponseEntity.ok(usuarioAutenticado);
