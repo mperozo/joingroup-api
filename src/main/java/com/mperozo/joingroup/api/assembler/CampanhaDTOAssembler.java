@@ -26,6 +26,7 @@ public class CampanhaDTOAssembler {
 				.usuarioResponsavel(usuarioResponsavel)
 				.empresa(dto.getEmpresa())
 				.link(dto.getLink())
+				.url(dto.getUrl())
 				.status(dto.getStatus())
 				.telefoneSuporte(dto.getTelefoneSuporte())
 				.groupClickLimit(dto.getGroupClickLimit())
