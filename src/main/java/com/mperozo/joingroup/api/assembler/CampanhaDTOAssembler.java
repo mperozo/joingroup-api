@@ -19,7 +19,8 @@ public class CampanhaDTOAssembler {
 
 	public Campanha toEntity(CampanhaDTO dto) {
 		
-		Usuario usuarioResponsavel = usuarioService.buscarPorId(dto.getIdUsuarioResponsavel());
+		//TODO implementar quando tiver autenticação
+		Usuario usuarioResponsavel = usuarioService.buscarPorId(1L);
 		
 		return Campanha.builder()
 				.nome(dto.getNome())

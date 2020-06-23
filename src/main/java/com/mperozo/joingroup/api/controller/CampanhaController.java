@@ -26,25 +26,26 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("joingroup/api")
 @RequiredArgsConstructor
 public class CampanhaController {
-	
+
 	@Autowired
 	private final CampanhaService campanhaService;
-	
+
 	@Autowired
 	private final CampanhaDTOAssembler campanhaDTOAssembler;
-	
-	//TODO definir da seguinte forma: separar em classes, porém a url fiel ao negócio
-	//joingroup/usuarios/{id}/campanhas/{id}/grupos
-	
+
+	// TODO definir da seguinte forma: separar em classes, porém a url fiel ao
+	// negócio
+	// joingroup/usuarios/{id}/campanhas/{id}/grupos
+
 	@GetMapping("/v1/campanhas/{id}")
 	public ResponseEntity findById(@PathVariable("id") Long id) {
 		Campanha campanha = campanhaService.buscarPorId(id);
-		if(campanha == null) {
+		if (campanha == null) {
 			return new ResponseEntity(HttpStatus.NOT_FOUND);
 		}
 		return ResponseEntity.ok(campanha);
 	}
-	
+
 	@GetMapping("/v1/usuarios/{id}/campanhas")
 	public ResponseEntity findByIdUsuario(@PathVariable("id") Long idUsuarioResponsavel) {
 		List<Campanha> campanhas = campanhaService.buscarPorUsuarioResponsavel(idUsuarioResponsavel);
@@ -52,7 +53,7 @@ public class CampanhaController {
 
 		return ResponseEntity.ok(campanhaDTOList);
 	}
-	
+
 	@PostMapping("/v1/campanhas/")
 	public ResponseEntity save(@RequestBody CampanhaDTO campanhaDTO) {
 
@@ -60,33 +61,33 @@ public class CampanhaController {
 			Campanha campanha = campanhaDTOAssembler.toEntity(campanhaDTO);
 			Campanha campanhaSalva = campanhaService.salvarCampanha(campanha);
 			return new ResponseEntity(campanhaSalva, HttpStatus.CREATED);
-		}catch(BusinessException e) {
+		} catch (BusinessException e) {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
 	}
-	
+
 	@PutMapping("/v1/campanhas/update/{id}")
-	public ResponseEntity update( @PathVariable("id") Long id, @RequestBody CampanhaDTO campanhaDTO) {
-		
+	public ResponseEntity update(@PathVariable("id") Long id, @RequestBody CampanhaDTO campanhaDTO) {
+
 		try {
 			Campanha campanhaComNovosDados = campanhaDTOAssembler.toEntity(campanhaDTO);
 			Campanha campanhaAtualizada = campanhaService.atualizarCampanha(id, campanhaComNovosDados);
-			
+
 			return ResponseEntity.ok(campanhaAtualizada);
-		} catch(BusinessException e) {
+		} catch (BusinessException e) {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
 	}
-	
+
 	@DeleteMapping("/v1/campanhas/{id}")
 	public ResponseEntity delete(@PathVariable("id") Long id) {
-		
+
 		try {
 			campanhaService.deletar(id);
-			return new ResponseEntity(HttpStatus.NO_CONTENT); 
-		} catch(BusinessException e) {
+			return new ResponseEntity(HttpStatus.NO_CONTENT);
+		} catch (BusinessException e) {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
 	}
-	
+
 }

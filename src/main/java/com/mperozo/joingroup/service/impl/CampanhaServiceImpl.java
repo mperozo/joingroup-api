@@ -68,6 +68,9 @@ public class CampanhaServiceImpl implements CampanhaService {
 	@Transactional
 	public Campanha salvarCampanha(Campanha campanha) {
 		
+		//TODO ver a forma de criar a URL
+		campanha.setUrl(campanha.getLink());
+		
 		campanhaValidator.validarCampanha(campanha);
 
 		campanha.setStatus(StatusCampanhaEnum.ATIVO);
