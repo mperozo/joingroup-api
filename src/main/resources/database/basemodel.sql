@@ -41,7 +41,7 @@ CREATE TABLE joingroup.grupo
 	id bigserial NOT NULL PRIMARY KEY,
 	nome character varying(150) NOT NULL,
 	url character varying(300) NOT NULL,
-	total_redirect integer NOT NULL,
+	total_redirect integer,
 	id_campanha bigint references joingroup.campanha(id),
 	data_hora_inclusao TIMESTAMP DEFAULT now() NOT NULL,
 	data_hora_alteracao TIMESTAMP

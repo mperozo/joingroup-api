@@ -54,6 +54,10 @@ public class CampanhaServiceImpl implements CampanhaService {
 
 	@Override
 	public Campanha buscarPorId(Long id) {
+		
+		if(id == null) {
+			throw new BusinessException("O ID da campanha não pode ser nulo.");
+		}
 
 		Optional<Campanha> campanha = campanhaRepository.findById(id);
 		
