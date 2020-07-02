@@ -21,6 +21,8 @@ import com.mperozo.joingroup.exception.BusinessException;
 import com.mperozo.joingroup.model.entity.Campanha;
 import com.mperozo.joingroup.model.entity.Usuario;
 import com.mperozo.joingroup.model.repository.CampanhaRepository;
+import com.mperozo.joingroup.model.repository.GrupoRepository;
+import com.mperozo.joingroup.model.repository.RastreioRepository;
 import com.mperozo.joingroup.service.UsuarioService;
 import com.mperozo.joingroup.service.impl.validation.CampanhaValidator;
 import com.mperozo.joingroup.utils.TestUtils;
@@ -37,6 +39,12 @@ public class CampanhaServiceUnitTest {
 	
 	@MockBean
 	private UsuarioService usuarioServiceMock;
+	
+	@MockBean
+	private GrupoRepository grupoRepositoryMock;
+	
+	@MockBean
+	private RastreioRepository rastreioRepositoryMock;
 
 	@SpyBean
 	private CampanhaServiceImpl campanhaService;
@@ -99,6 +107,8 @@ public class CampanhaServiceUnitTest {
 		
 		campanhaService.deletar(campanha.getId());
 		
+		verify(rastreioRepositoryMock, Mockito.times(1)).deleteByCampanha(campanha);
+		verify(grupoRepositoryMock, Mockito.times(1)).deleteByCampanha(campanha);
 		verify(campanhaRepositoryMock, Mockito.times(1)).delete(campanha);
 	}
 	
@@ -113,6 +123,8 @@ public class CampanhaServiceUnitTest {
 			.isInstanceOf(BusinessException.class)
 			.hasMessage("Não foi encontrada a campanha a ser excluída de ID: 1");
 		
+		verify(rastreioRepositoryMock, Mockito.times(0)).deleteByCampanha(Mockito.any(Campanha.class));
+		verify(grupoRepositoryMock, Mockito.times(0)).deleteByCampanha(Mockito.any(Campanha.class));
 		verify(campanhaRepositoryMock, Mockito.times(0)).delete(Mockito.any(Campanha.class));
 	}
 

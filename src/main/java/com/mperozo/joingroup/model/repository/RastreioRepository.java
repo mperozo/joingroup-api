@@ -10,4 +10,6 @@ import com.mperozo.joingroup.model.entity.Rastreio;
 public interface RastreioRepository extends JpaRepository<Rastreio, Long> {
 
 	List<Rastreio> findByCampanha(Campanha campanha);
+
+	void deleteByCampanha(Campanha campanha);
 }

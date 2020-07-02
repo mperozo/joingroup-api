@@ -10,4 +10,6 @@ import com.mperozo.joingroup.model.entity.Grupo;
 public interface GrupoRepository extends JpaRepository<Grupo, Long> {
 
 	List<Grupo> findByCampanha(Campanha campanha);
+
+	List<Grupo> deleteByCampanha(Campanha campanha);
 }

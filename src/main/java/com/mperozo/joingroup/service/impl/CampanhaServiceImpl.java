@@ -15,12 +15,17 @@ import com.mperozo.joingroup.model.entity.Campanha;
 import com.mperozo.joingroup.model.entity.Usuario;
 import com.mperozo.joingroup.model.enums.StatusCampanhaEnum;
 import com.mperozo.joingroup.model.repository.CampanhaRepository;
+import com.mperozo.joingroup.model.repository.GrupoRepository;
+import com.mperozo.joingroup.model.repository.RastreioRepository;
 import com.mperozo.joingroup.service.CampanhaService;
 import com.mperozo.joingroup.service.UsuarioService;
 import com.mperozo.joingroup.service.impl.validation.CampanhaValidator;
 
+import lombok.extern.slf4j.Slf4j;
+
 
 @Service
+@Slf4j
 public class CampanhaServiceImpl implements CampanhaService {
 	
 	//TODO colocar em um configuracaoService
@@ -33,6 +38,12 @@ public class CampanhaServiceImpl implements CampanhaService {
 	
 	@Autowired
 	private UsuarioService usuarioService;
+	
+	@Autowired
+	private GrupoRepository grupoRepository;
+	
+	@Autowired
+	private RastreioRepository rastreioRepository;
 	
 	@Autowired
 	private CampanhaValidator campanhaValidator;
@@ -116,14 +127,19 @@ public class CampanhaServiceImpl implements CampanhaService {
 	@Override
 	@Transactional
 	public void deletar(Long id) {
-		
+
 		Optional<Campanha> campanhaASerExcluida = campanhaRepository.findById(id);
 		
 		if(!campanhaASerExcluida.isPresent()) {
 			throw new BusinessException("Não foi encontrada a campanha a ser excluída de ID: " + id);
 		}
 		
+		rastreioRepository.deleteByCampanha(campanhaASerExcluida.get());
+		grupoRepository.deleteByCampanha(campanhaASerExcluida.get());
+		
 		campanhaRepository.delete(campanhaASerExcluida.get());
+		
+		log.info("Campanha deletada com sucesso. ID: " + id);
 	}
 
 }
