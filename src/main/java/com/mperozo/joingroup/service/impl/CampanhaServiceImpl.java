@@ -114,7 +114,7 @@ public class CampanhaServiceImpl implements CampanhaService {
 		campanhaAntiga.setTelefoneSuporte(campanhaComNovosDados.getTelefoneSuporte());
 		campanhaAntiga.setEmpresa(campanhaComNovosDados.getEmpresa());
 		campanhaAntiga.setLink(campanhaComNovosDados.getLink());
-		campanhaAntiga.setUrl(criarURL(campanhaComNovosDados.getEmpresa(), campanhaComNovosDados.getLink()));
+		//campanhaAntiga.setUrl(criarURL(campanhaComNovosDados.getEmpresa(), campanhaComNovosDados.getLink()));
 		campanhaAntiga.setEndUrl(campanhaComNovosDados.getEndUrl());
 		
 		return campanhaAntiga;

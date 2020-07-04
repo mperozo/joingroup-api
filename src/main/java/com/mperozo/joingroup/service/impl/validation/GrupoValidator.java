@@ -28,16 +28,18 @@ public class GrupoValidator {
 	
 	public void validarAlteracaoDeGrupo(Grupo grupoComNovosDados, Grupo grupoAntigo) {
 		
+		//TODO validar se campanha do Grupo pertence ao usuário logado
+		
 		if(grupoComNovosDados.getCampanha() != grupoAntigo.getCampanha()) {
 			throw new BusinessException("Não é possível alterar a campanha de um grupo.");
 		}
 
-		if(grupoComNovosDados.getNome() != grupoAntigo.getNome()) {
+		if(!grupoComNovosDados.getNome().equals(grupoAntigo.getNome())) {
 			
 			validarNomeExistenteNaCampanhaDoGrupo(grupoComNovosDados.getNome(), grupoComNovosDados.getCampanha());
 		}
 		
-		if(grupoComNovosDados.getUrl() != grupoAntigo.getUrl()) {
+		if(!grupoComNovosDados.getUrl().equals(grupoAntigo.getUrl())) {
 			
 			validarURLExistenteEntreGruposDeUmaMesmaCampanha(grupoComNovosDados.getUrl(), grupoComNovosDados.getCampanha());
 		}

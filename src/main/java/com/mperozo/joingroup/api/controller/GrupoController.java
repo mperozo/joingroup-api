@@ -39,7 +39,8 @@ public class GrupoController {
 		if(grupo == null) {
 			return new ResponseEntity(HttpStatus.NOT_FOUND);
 		}
-		return ResponseEntity.ok(grupo);
+		GrupoDTO grupoDTO = grupoDTOAssembler.toDTO(grupo);
+		return ResponseEntity.ok(grupoDTO);
 	}
 	
 	@GetMapping("/v1/campanhas/{id}/grupos")
