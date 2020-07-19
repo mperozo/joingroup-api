@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -28,6 +29,9 @@ public class UsuarioServiceUnitTest {
 
 	@MockBean
 	private UsuarioRepository usuarioRepositoryMock;
+	
+	@MockBean
+	private PasswordEncoder passwordEncoderMock;
 
 	@SpyBean
 	private UsuarioServiceImpl usuarioService;

@@ -1,13 +1,17 @@
 package com.mperozo.joingroup.utils;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import com.mperozo.joingroup.api.dto.UsuarioDTO;
 import com.mperozo.joingroup.model.entity.Campanha;
 import com.mperozo.joingroup.model.entity.Grupo;
+import com.mperozo.joingroup.model.entity.Role;
 import com.mperozo.joingroup.model.entity.Usuario;
+import com.mperozo.joingroup.model.enums.RolesEnum;
 import com.mperozo.joingroup.model.enums.StatusUsuarioEnum;
 import com.mperozo.joingroup.model.enums.TipoRedirectEnum;
 
@@ -15,6 +19,7 @@ public class TestUtils {
 
 	public static final String SENHA_USUARIO_TESTE = "SENHA1";
 	public static final String EMAIL_USUARIO_TESTE = "emailparateste@email.com.br";
+	public static final String EMAIL_USUARIO_TESTE_2 = "emailparateste_2@email.com.br";
 	
 	public static final String NOME_CAMPANHA_TESTE = "Campanha Teste";
 	public static final String DOMINIO = "http://www.joingroup.com";
@@ -30,12 +35,17 @@ public class TestUtils {
 	/* Métodos auxiliares */
 	
 	public static Usuario criarUsuario(String email, String senha) {
+		
+		Set<Role> roles = new HashSet<Role>();
+		roles.add(new Role(RolesEnum.ROLE_USER));
+		
 		return Usuario.builder()
 				.nome("Nome")
 				.senha(senha)
 				.email(email)
 				.status(StatusUsuarioEnum.ATIVO)
 				.dataHoraInclusao(LocalDateTime.now())
+				.roles(roles)
 				.build();
 	}
 	

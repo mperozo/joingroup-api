@@ -10,6 +10,8 @@ public interface UsuarioService {
 	
 	Usuario buscarPorId(Long id);
 	
+	Usuario buscarPorEmail(String email);
+
 	/**
 	 * Verifica se já existe o e-mail na base de dados
 	 * 
@@ -18,4 +20,5 @@ public interface UsuarioService {
 	void verificarSeEmailJaEstaCadastrado(String email);
 	
 	Usuario obterUsuarioAutenticado();
+
 }

@@ -15,6 +15,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
 
@@ -41,18 +42,22 @@ public class Campanha {
 	private Long id;
 	
 	@Column(name = "NOME")
+	@Size(max = 150)
 	@NotBlank(message = "Nome é obrigatório.")
 	private String nome;
 	
 	@Column(name = "EMPRESA")
+	@Size(max = 100)
 	@NotBlank(message = "Nome da empresa é obrigatório.")
 	private String empresa;
 	
 	@Column(name = "LINK")
+	@Size(max = 100)
 	@NotBlank(message = "Link é obrigatório.")
 	private String link;
 	
 	@Column(name = "URL")
+	@Size(max = 300)
 	@NotBlank(message = "URL é obrigatória.")
 	private String url;
 	
@@ -61,9 +66,11 @@ public class Campanha {
 	private Usuario usuarioResponsavel;
 	
 	@Column(name = "END_URL")
+	@Size(max = 300)
 	private String endUrl;
 	
 	@Column(name = "TELEFONE_SUPORTE")
+	@Size(max = 16)
 	private String telefoneSuporte;
 	
 	@Column(name = "GROUP_CLICK_LIMIT")
@@ -84,18 +91,22 @@ public class Campanha {
 	private TipoRedirectEnum tipoRedirect;
 	
 	@Column(name = "TITULO_REDIRECT")
+	@Size(max = 150)
 	private String tituloRedirect;
 	
 	@Column(name = "SUBTITULO_REDIRECT")
+	@Size(max = 300)
 	private String subtituloRedirect;
 	
 	@Column(name = "TEMPO_REDIRECT")
 	private Integer tempoRedirect;
 
 	@Column(name = "TITULO_METATAG")
+	@Size(max = 150)
 	private String tituloMetatag;
 	
 	@Column(name = "DESCRICAO_METATAG")
+	@Size(max = 300)
 	private String descricaoMetatag;
 	
 	@Column(name = "DATA_HORA_INCLUSAO")

@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
 
@@ -36,10 +37,12 @@ public class Grupo {
 	private Long id;
 
 	@Column(name = "NOME")
+	@Size(max = 150)
 	@NotBlank(message = "Nome é obrigatório.")
 	private String nome;
 	
 	@Column(name = "URL")
+	@Size(max = 300)
 	@NotBlank(message = "URL é obrigatória.")
 	private String url;
 	

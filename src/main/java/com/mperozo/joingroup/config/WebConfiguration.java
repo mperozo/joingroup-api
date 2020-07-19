@@ -1,3 +1,5 @@
+/*
+
 package com.mperozo.joingroup.config;
 
 import org.springframework.context.annotation.Configuration;
@@ -15,3 +17,5 @@ public class WebConfiguration implements WebMvcConfigurer {
 		registry.addMapping("/**").allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS");
 	}
 }
+
+*/

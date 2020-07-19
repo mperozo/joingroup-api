@@ -9,5 +9,4 @@ public class JoingroupApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(JoingroupApplication.class, args);
 	}
-
 }

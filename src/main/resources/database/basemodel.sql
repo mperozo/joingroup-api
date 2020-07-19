@@ -5,12 +5,24 @@ CREATE TABLE joingroup.usuario
 	id bigserial NOT NULL PRIMARY KEY,
 	nome character varying(150) NOT NULL,
 	email character varying(100) NOT NULL,
-	senha character varying(20) NOT NULL,
+	senha character varying(100) NOT NULL,
 	status character varying(10) NOT NULL,
 	data_hora_inclusao TIMESTAMP DEFAULT now() NOT NULL,
 	data_hora_alteracao TIMESTAMP,
 	
 	CONSTRAINT usuario_status_check CHECK (status::text = ANY (ARRAY['ATIVO'::character varying, 'INATIVO'::character varying, 'BLOQUEADO'::character varying]::text[]))
+);
+
+CREATE TABLE joingroup.role
+(
+	id bigserial NOT NULL PRIMARY KEY,
+	nome character varying(20) NOT NULL
+);
+
+CREATE TABLE joingroup.usuario_roles
+(
+	usuario_id bigserial references joingroup.usuario(id) NOT NULL,
+	role_id bigserial references joingroup.roles(id) NOT NULL
 );
 
 CREATE TABLE joingroup.campanha
@@ -26,7 +38,7 @@ CREATE TABLE joingroup.campanha
 	group_click_limit integer NOT NULL,
 	status character varying(10) NOT NULL,
 	data_validade TIMESTAMP,
-	tipo_redirect character varying(150) NOT NULL,
+	tipo_redirect character varying(10) NOT NULL,
 	titulo_redirect character varying(150),
 	subtitulo_redirect character varying(300),
 	tempo_redirect integer,

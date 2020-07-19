@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.mperozo.joingroup.api.assembler.UsuarioDTOAssembler;
 import com.mperozo.joingroup.api.dto.UsuarioDTO;
-import com.mperozo.joingroup.exception.AuthenticationException;
 import com.mperozo.joingroup.exception.BusinessException;
 import com.mperozo.joingroup.model.entity.Usuario;
 import com.mperozo.joingroup.service.UsuarioService;
@@ -49,15 +48,4 @@ public class UsuarioController {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
 	}
-	
-	@PostMapping("/v1/usuarios/login")
-	public ResponseEntity login(@RequestBody UsuarioDTO usuarioDTO) {
-		try {
-			Usuario usuarioAutenticado = usuarioService.autenticar(usuarioDTO.getEmail(), usuarioDTO.getSenha());
-			return ResponseEntity.ok(usuarioAutenticado);
-		}catch (AuthenticationException e) {
-			return ResponseEntity.badRequest().body(e.getMessage());
-		}
-	}
-	
 }

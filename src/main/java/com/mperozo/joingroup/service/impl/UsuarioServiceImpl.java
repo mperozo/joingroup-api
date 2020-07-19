@@ -1,21 +1,25 @@
 package com.mperozo.joingroup.service.impl;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.mperozo.joingroup.exception.AuthenticationException;
 import com.mperozo.joingroup.exception.BusinessException;
+import com.mperozo.joingroup.model.entity.Role;
 import com.mperozo.joingroup.model.entity.Usuario;
+import com.mperozo.joingroup.model.enums.RolesEnum;
 import com.mperozo.joingroup.model.enums.StatusUsuarioEnum;
 import com.mperozo.joingroup.model.repository.UsuarioRepository;
 import com.mperozo.joingroup.service.UsuarioService;
-
 
 @Service
 public class UsuarioServiceImpl implements UsuarioService {
@@ -27,6 +31,9 @@ public class UsuarioServiceImpl implements UsuarioService {
 
 	@Autowired
 	private UsuarioRepository usuarioRepository;
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 	public UsuarioServiceImpl(UsuarioRepository usuarioRepository) {
 		super();
@@ -37,6 +44,9 @@ public class UsuarioServiceImpl implements UsuarioService {
 	public Usuario autenticar(String email, String senha) {
 
 		// TODO MVP de autenticação. Evoluir futuramente.
+		
+		//Usuario usuarioAutenticado = authenticationProvider.autenticar(email, senha);
+		
 		Optional<Usuario> usuario = usuarioRepository.findByEmail(email);
 
 		if (!usuario.isPresent()) {
@@ -55,15 +65,25 @@ public class UsuarioServiceImpl implements UsuarioService {
 	@Override
 	@Transactional
 	public Usuario salvarUsuario(Usuario usuario) {
-		verificarSeEmailJaEstaCadastrado(usuario.getEmail());
+		
 		validarUsuarioParaSalvar(usuario);
+		
+		usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
+		
+		Set<Role> roles = new HashSet<Role>();
+		roles.add(new Role(RolesEnum.ROLE_USER));
+		usuario.setRoles(roles);
 		usuario.setDataHoraInclusao(LocalDateTime.now());
 		usuario.setStatus(StatusUsuarioEnum.ATIVO);
+		
 		return usuarioRepository.save(usuario);
 	}
 
-	private void validarUsuarioParaSalvar(Usuario usuario) {
-		//TODO
+	protected void validarUsuarioParaSalvar(Usuario usuario) {
+
+		//TODO Validar se senha atende aos requisitos
+		
+		verificarSeEmailJaEstaCadastrado(usuario.getEmail());
 	}
 
 	@Override
@@ -84,10 +104,22 @@ public class UsuarioServiceImpl implements UsuarioService {
 		return usuario.get();
 	}
 
-	public Usuario obterUsuarioAutenticado() {
+	@Override
+	public Usuario buscarPorEmail(String email) {
 
-		//TODO obter o usuario autenticado
-		return usuarioRepository.findById(1L).get();
+		Optional<Usuario> usuario = usuarioRepository.findByEmail(email);
+		
+		if(!usuario.isPresent()) {
+			throw new BusinessException("Usuário não encontrado na base de dados para o e-mail = " + email );
+		}
+		
+		return usuario.get();
+	}
+
+	@Override
+	public Usuario obterUsuarioAutenticado() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

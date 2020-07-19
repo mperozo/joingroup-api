@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 
 import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
 
@@ -43,9 +44,11 @@ public class Rastreio {
 	private TipoRastreioEnum tipo;
 	
 	@Column(name = "CODIGO")
+	@Size(max = 150)
 	private String codigo;
 	
 	@Column(name = "SCRIPT")
+	@Size(max = 500)
 	private String script;
 	
 	@ManyToOne

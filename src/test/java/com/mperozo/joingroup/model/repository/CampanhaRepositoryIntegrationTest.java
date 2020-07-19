@@ -60,7 +60,7 @@ public class CampanhaRepositoryIntegrationTest {
 		Campanha campanha1 = TestUtils.criarCampanha( "Campanha Teste 1", TestUtils.EMPRESA_CAMPANHA_TESTE, TestUtils.LINK_CAMPANHA_TESTE, usuarioResponsavel1, 200, TipoRedirectEnum.BOTAO, LocalDateTime.now() );
 		Campanha campanha2 = TestUtils.criarCampanha( "Campanha Teste 2", TestUtils.EMPRESA_CAMPANHA_TESTE, TestUtils.LINK_CAMPANHA_TESTE, usuarioResponsavel1, 200, TipoRedirectEnum.BOTAO, LocalDateTime.now() );
 		
-		Usuario usuarioResponsavel2 = TestUtils.criarUsuario(TestUtils.EMAIL_USUARIO_TESTE, TestUtils.SENHA_USUARIO_TESTE);
+		Usuario usuarioResponsavel2 = TestUtils.criarUsuario(TestUtils.EMAIL_USUARIO_TESTE_2, TestUtils.SENHA_USUARIO_TESTE);
 		Campanha campanha3 = TestUtils.criarCampanha( "Campanha Teste 3", TestUtils.EMPRESA_CAMPANHA_TESTE, TestUtils.LINK_CAMPANHA_TESTE, usuarioResponsavel2, 200, TipoRedirectEnum.BOTAO, LocalDateTime.now() );
 
 		entityManager.persist(usuarioResponsavel1);
