@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.mperozo.joingroup.api.assembler.UsuarioDTOAssembler;
 import com.mperozo.joingroup.api.dto.UsuarioDTO;
+import com.mperozo.joingroup.api.payload.request.RegisterRequest;
 import com.mperozo.joingroup.api.payload.response.JwtResponse;
 import com.mperozo.joingroup.exception.BusinessException;
 import com.mperozo.joingroup.model.entity.Usuario;
@@ -32,7 +33,7 @@ import lombok.RequiredArgsConstructor;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/joingroup/api/auth")
+@RequestMapping("/joingroup/api")
 @RequiredArgsConstructor
 public class AuthController {
 
@@ -48,8 +49,7 @@ public class AuthController {
 	@Autowired
 	JwtUtils jwtUtils;
 
-	// 3:56
-	@PostMapping("/login")
+	@PostMapping("/v1/auth/login")
 	public ResponseEntity login(@Valid @RequestBody UsuarioDTO usuarioDTO) {
 
 		Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(usuarioDTO.getEmail(), usuarioDTO.getSenha()));
@@ -71,20 +71,19 @@ public class AuthController {
 		 */
 	}
 
-	// 3:45
-	@GetMapping("/register")
-	public ResponseEntity register(@Valid @RequestBody UsuarioDTO usuarioDTO) {
+	@GetMapping("v1/auth/register")
+	public ResponseEntity register(@Valid @RequestBody RegisterRequest registerRequest) {
 		try {
-			Usuario usuario = usuarioDTOAssembler.toEntity(usuarioDTO);
-			usuarioService.salvarUsuario(usuario);
+			Usuario usuario = usuarioService.registrarUsuario(registerRequest);
 			return new ResponseEntity(usuario, HttpStatus.CREATED);
 		}catch(BusinessException e) {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
 	}
 
-	@GetMapping("/logout")
+	@GetMapping("v1/auth/logout")
 	public String logout() {
+		// TODO
 		return "logout";
 	}
 

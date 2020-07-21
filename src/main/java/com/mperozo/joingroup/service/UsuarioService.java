@@ -1,10 +1,13 @@
 package com.mperozo.joingroup.service;
 
+import com.mperozo.joingroup.api.payload.request.RegisterRequest;
 import com.mperozo.joingroup.model.entity.Usuario;
 
 public interface UsuarioService {
 
 	Usuario autenticar(String email, String senha);
+	
+	Usuario registrarUsuario(RegisterRequest registerRequest);
 	
 	Usuario salvarUsuario(Usuario usuario);
 	

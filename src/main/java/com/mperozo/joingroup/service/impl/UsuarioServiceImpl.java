@@ -12,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.mperozo.joingroup.api.payload.request.RegisterRequest;
 import com.mperozo.joingroup.exception.AuthenticationException;
 import com.mperozo.joingroup.exception.BusinessException;
 import com.mperozo.joingroup.model.entity.Role;
@@ -60,6 +61,17 @@ public class UsuarioServiceImpl implements UsuarioService {
 		}
 
 		return usuario.get();
+	}
+	
+	public Usuario registrarUsuario(RegisterRequest registerRequest) {
+
+		Usuario usuario = new Usuario();
+		
+		usuario.setEmail(registerRequest.getEmail());
+		usuario.setNome(registerRequest.getNome());
+		usuario.setSenha(registerRequest.getSenha());
+		
+		return salvarUsuario(usuario);
 	}
 
 	@Override
