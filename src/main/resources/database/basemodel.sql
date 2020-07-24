@@ -22,7 +22,7 @@ CREATE TABLE joingroup.role
 CREATE TABLE joingroup.usuario_roles
 (
 	usuario_id bigserial references joingroup.usuario(id) NOT NULL,
-	role_id bigserial references joingroup.roles(id) NOT NULL
+	role_id bigserial references joingroup.role(id) NOT NULL
 );
 
 CREATE TABLE joingroup.campanha
@@ -69,3 +69,7 @@ CREATE TABLE joingroup.rastreio
 	data_hora_inclusao TIMESTAMP DEFAULT now() NOT NULL,
 	data_hora_alteracao TIMESTAMP
 );
+
+-- Inserindo a ROLE_USER
+
+INSERT INTO joingroup.role(nome) VALUES('ROLE_USER');

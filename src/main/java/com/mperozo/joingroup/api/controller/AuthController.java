@@ -13,14 +13,13 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mperozo.joingroup.api.assembler.UsuarioDTOAssembler;
-import com.mperozo.joingroup.api.dto.UsuarioDTO;
+import com.mperozo.joingroup.api.payload.request.LoginRequest;
 import com.mperozo.joingroup.api.payload.request.RegisterRequest;
 import com.mperozo.joingroup.api.payload.response.JwtResponse;
 import com.mperozo.joingroup.exception.BusinessException;
@@ -50,9 +49,9 @@ public class AuthController {
 	JwtUtils jwtUtils;
 
 	@PostMapping("/v1/auth/login")
-	public ResponseEntity login(@Valid @RequestBody UsuarioDTO usuarioDTO) {
+	public ResponseEntity login(@Valid @RequestBody LoginRequest loginRequest) {
 
-		Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(usuarioDTO.getEmail(), usuarioDTO.getSenha()));
+		Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getSenha()));
 
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		String jwt = jwtUtils.generateJwtToken(authentication);
@@ -71,7 +70,7 @@ public class AuthController {
 		 */
 	}
 
-	@GetMapping("v1/auth/register")
+	@PostMapping("v1/auth/register")
 	public ResponseEntity register(@Valid @RequestBody RegisterRequest registerRequest) {
 		try {
 			Usuario usuario = usuarioService.registrarUsuario(registerRequest);
@@ -81,7 +80,7 @@ public class AuthController {
 		}
 	}
 
-	@GetMapping("v1/auth/logout")
+	@PostMapping("v1/auth/logout")
 	public String logout() {
 		// TODO
 		return "logout";

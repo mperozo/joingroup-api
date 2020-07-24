@@ -68,7 +68,7 @@ public class Usuario {
 
 	@Builder.Default
 	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "USUARIO_ROLES", joinColumns = @JoinColumn(name = "USUARIO_ID"), inverseJoinColumns = @JoinColumn(name = "ROLE_ID"))
+	@JoinTable(name = "USUARIO_ROLES", schema = "JOINGROUP", joinColumns = @JoinColumn(name = "USUARIO_ID"), inverseJoinColumns = @JoinColumn(name = "ROLE_ID"))
 	private Set<Role> roles = new HashSet<>();
 
 	@Column(name = "DATA_HORA_INCLUSAO")

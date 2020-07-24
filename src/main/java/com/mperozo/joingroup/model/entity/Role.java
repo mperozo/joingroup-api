@@ -8,7 +8,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.Size;
 
 import com.mperozo.joingroup.model.enums.RolesEnum;
 import com.sun.istack.NotNull;
@@ -33,7 +32,6 @@ public class Role {
 
 	@Enumerated(value = EnumType.STRING)
 	@Column(name = "NOME")
-	@Size(max = 20)
 	@NotNull
 	private RolesEnum nome;
 	

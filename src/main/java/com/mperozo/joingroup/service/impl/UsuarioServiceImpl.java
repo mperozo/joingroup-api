@@ -20,6 +20,7 @@ import com.mperozo.joingroup.model.entity.Usuario;
 import com.mperozo.joingroup.model.enums.RolesEnum;
 import com.mperozo.joingroup.model.enums.StatusUsuarioEnum;
 import com.mperozo.joingroup.model.repository.UsuarioRepository;
+import com.mperozo.joingroup.service.RoleService;
 import com.mperozo.joingroup.service.UsuarioService;
 
 @Service
@@ -27,11 +28,13 @@ public class UsuarioServiceImpl implements UsuarioService {
 
 	Logger logger = LoggerFactory.getLogger(UsuarioServiceImpl.class);
 
-	// TODO criar arquivo de properties
 	private static final String USUARIO_OU_SENHA_INVALIDOS = "Usuario ou senha inválidos.";
 
 	@Autowired
 	private UsuarioRepository usuarioRepository;
+	
+	@Autowired
+	private RoleService roleService;
 	
 	@Autowired
 	private PasswordEncoder passwordEncoder;
@@ -80,15 +83,25 @@ public class UsuarioServiceImpl implements UsuarioService {
 		
 		validarUsuarioParaSalvar(usuario);
 		
-		usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
+		associarRoleUSER(usuario);
 		
-		Set<Role> roles = new HashSet<Role>();
-		roles.add(new Role(RolesEnum.ROLE_USER));
-		usuario.setRoles(roles);
+		usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
 		usuario.setDataHoraInclusao(LocalDateTime.now());
 		usuario.setStatus(StatusUsuarioEnum.ATIVO);
 		
 		return usuarioRepository.save(usuario);
+	}
+
+	/**
+	 * Associa a role "default" ROLE_USER ao usuário.
+	 */
+	private void associarRoleUSER(Usuario usuario) {
+		
+		Role roleUser = roleService.buscarPorNome(RolesEnum.ROLE_USER);
+
+		Set<Role> roles = new HashSet<Role>();
+		roles.add(roleUser);
+		usuario.setRoles(roles);
 	}
 
 	protected void validarUsuarioParaSalvar(Usuario usuario) {

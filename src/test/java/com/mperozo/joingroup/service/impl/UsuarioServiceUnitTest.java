@@ -21,6 +21,7 @@ import com.mperozo.joingroup.exception.AuthenticationException;
 import com.mperozo.joingroup.exception.BusinessException;
 import com.mperozo.joingroup.model.entity.Usuario;
 import com.mperozo.joingroup.model.repository.UsuarioRepository;
+import com.mperozo.joingroup.service.RoleService;
 import com.mperozo.joingroup.utils.TestUtils;
 
 @ExtendWith(SpringExtension.class)
@@ -30,6 +31,9 @@ public class UsuarioServiceUnitTest {
 	@MockBean
 	private UsuarioRepository usuarioRepositoryMock;
 	
+	@MockBean
+	private RoleService roleServiceMock;
+
 	@MockBean
 	private PasswordEncoder passwordEncoderMock;
 
