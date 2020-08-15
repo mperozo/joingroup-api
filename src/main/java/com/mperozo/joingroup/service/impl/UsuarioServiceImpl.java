@@ -72,7 +72,9 @@ public class UsuarioServiceImpl implements UsuarioService {
 		
 		usuario.setEmail(registerRequest.getEmail());
 		usuario.setNome(registerRequest.getNome());
+		usuario.setSobrenome(registerRequest.getSobrenome());
 		usuario.setSenha(registerRequest.getSenha());
+		usuario.setNewsletter(registerRequest.getNewsletter());
 		
 		return salvarUsuario(usuario);
 	}

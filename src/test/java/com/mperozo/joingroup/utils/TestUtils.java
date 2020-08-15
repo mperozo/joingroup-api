@@ -41,8 +41,10 @@ public class TestUtils {
 		
 		return Usuario.builder()
 				.nome("Nome")
+				.sobrenome("Sobrenome")
 				.senha(senha)
 				.email(email)
+				.newsletter(false)
 				.status(StatusUsuarioEnum.ATIVO)
 				.dataHoraInclusao(LocalDateTime.now())
 				.roles(roles)

@@ -4,10 +4,12 @@ CREATE TABLE joingroup.usuario
 (
 	id bigserial NOT NULL PRIMARY KEY,
 	nome character varying(150) NOT NULL,
+	sobrenome character varying(150) NOT NULL,
 	email character varying(100) NOT NULL,
 	senha character varying(100) NOT NULL,
 	status character varying(10) NOT NULL,
 	data_hora_inclusao TIMESTAMP DEFAULT now() NOT NULL,
+	newsletter BOOLEAN NOT NULL,
 	data_hora_alteracao TIMESTAMP,
 	
 	CONSTRAINT usuario_status_check CHECK (status::text = ANY (ARRAY['ATIVO'::character varying, 'INATIVO'::character varying, 'BLOQUEADO'::character varying]::text[]))
@@ -70,6 +72,14 @@ CREATE TABLE joingroup.rastreio
 	data_hora_alteracao TIMESTAMP
 );
 
--- Inserindo a ROLE_USER
+CREATE TABLE joingroup.configuracao
+(
+	chave character varying(30) NOT NULL,
+	valor character varying(150)
+);
 
+-- Inserindo a ROLE_USER
 INSERT INTO joingroup.role(nome) VALUES('ROLE_USER');
+
+INSERT INTO joingroup.configuracao(chave, valor) VALUES('jwtExpirationMs', '= 86400000');
+

@@ -34,6 +34,12 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping("/joingroup/api")
 @RequiredArgsConstructor
+/**
+ * Controller responsável pelos endpoints de autenticação e autorização e registro.
+ * Posteriormente criar um serviço em separado para ter essas responsabilidades e validar o token do usuário, bem como da aplicação web.
+ * 
+ * @author mperozo
+ */
 public class AuthController {
 
 	@Autowired
@@ -61,13 +67,6 @@ public class AuthController {
 		List<String> roles = userDetails.getAuthorities().stream().map(item -> item.getAuthority()).collect(Collectors.toList());
 
 		return ResponseEntity.ok(new JwtResponse(jwt, userDetails.getId(), userDetails.getUsername(), roles));
-
-		/*
-		 * Usuario usuario = usuarioDTOAssembler.toEntity(usuarioDTO); try { Usuario
-		 * usuarioSalvo = usuarioService.salvarUsuario(usuario); return new
-		 * ResponseEntity(usuarioSalvo, HttpStatus.CREATED); }catch(BusinessException e)
-		 * { return ResponseEntity.badRequest().body(e.getMessage()); }
-		 */
 	}
 
 	@PostMapping("v1/auth/register")
@@ -82,8 +81,10 @@ public class AuthController {
 
 	@PostMapping("v1/auth/logout")
 	public String logout() {
-		// TODO
-		return "logout";
+		//TODO Não será feito o logout server-side nessa primeira versão. Para implementar, seria necessário criar um mecanismo de blacklist.
+		//Ex: https://blog.usejournal.com/springboot-how-to-invalidate-jwt-token-such-as-logout-or-reset-all-active-tokens-73f55289d47b
+		// https://stackoverflow.com/questions/34475946/spring-boot-jwt-logout/42907381#42907381
+		return null;
 	}
 
 }

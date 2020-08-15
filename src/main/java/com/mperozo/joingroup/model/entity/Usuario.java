@@ -19,13 +19,13 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mperozo.joingroup.model.enums.StatusUsuarioEnum;
-import com.sun.istack.NotNull;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -49,6 +49,11 @@ public class Usuario {
 	@Size(max = 150)
 	@NotBlank(message = "Nome é obrigatório.")
 	private String nome;
+	
+	@Column(name = "SOBRENOME")
+	@Size(max = 150)
+	@NotBlank(message = "Sobrenome é obrigatório.")
+	private String sobrenome;
 
 	@Column(name = "STATUS")
 	@Enumerated(value = EnumType.STRING)
@@ -65,6 +70,11 @@ public class Usuario {
 	@NotBlank(message = "Senha é obrigatória.")
 	@JsonIgnore
 	private String senha;
+	
+	@Column(name = "NEWSLETTER")
+	@NotNull
+	@JsonIgnore
+	private Boolean newsletter;
 
 	@Builder.Default
 	@ManyToMany(fetch = FetchType.LAZY)

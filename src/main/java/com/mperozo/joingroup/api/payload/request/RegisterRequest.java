@@ -1,6 +1,7 @@
 package com.mperozo.joingroup.api.payload.request;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import lombok.Data;
@@ -15,8 +16,15 @@ public class RegisterRequest {
 	@NotBlank
     @Size(max = 150)
     private String nome;
+	
+	@NotBlank
+    @Size(max = 150)
+    private String sobrenome;
     
     @NotBlank
     @Size(min = 6, max = 40)
     private String senha;
+    
+    @NotNull
+    private Boolean newsletter;
 }
